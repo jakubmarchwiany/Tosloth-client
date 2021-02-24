@@ -1,12 +1,12 @@
 package main;
 
+import controllers.SplashViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
 
 
@@ -26,7 +26,13 @@ public class Main extends Application {
             Scene scene = new Scene(splashView);
             primaryStage.setScene(scene);
             primaryStage.initStyle(StageStyle.TRANSPARENT);
+            primaryStage.setTitle("ToSloth app");
+            primaryStage.setResizable(false);
             primaryStage.show();
+
+            SplashViewController splashViewController = fxmlLoader.getController();
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
