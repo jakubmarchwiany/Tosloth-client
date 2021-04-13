@@ -1,0 +1,8 @@
+/* stylesheets="@/main/style.css" */
+
+.buttonMainStyle {
+    -fx-background-color: #0691a5;
+    -fx-background-radius: 25px;
+    -fx-text-fill: WHITE;
+}
+

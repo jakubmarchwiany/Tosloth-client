@@ -1,6 +1,5 @@
 package main;
 
-import controllers.SplashViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,12 +29,11 @@ public class Main extends Application {
             primaryStage.setResizable(false);
             primaryStage.show();
 
-            SplashViewController splashViewController = fxmlLoader.getController();
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }
+
