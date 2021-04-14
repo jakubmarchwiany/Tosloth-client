@@ -2,9 +2,12 @@ package controllers;
 
 import com.google.gson.Gson;
 import javafx.animation.TranslateTransition;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.User;
 import org.apache.http.HttpEntity;
@@ -35,9 +39,11 @@ import java.util.ResourceBundle;
 
 public class SplashViewController implements Initializable {
 
+
     //Variables
 
     private User loginUser;
+    private Stage primaryStage;
 
 
     //Components JavaFx
@@ -67,6 +73,7 @@ public class SplashViewController implements Initializable {
     //Components JavaFx login
 
     public Label infoLabel;
+    public Label wrongLoPLabel;
     public Label signInLabel;
     public Button signInButton;
 
@@ -419,11 +426,41 @@ public class SplashViewController implements Initializable {
 
         try {
             HttpResponse response = httpClient.execute(postRequest);
-            HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
-            loginUser = new Gson().fromJson(responseString,User.class);
-            System.out.println(loginUser);
 
+            if (response.getStatusLine().getStatusCode() == 200)
+            {
+                HttpEntity entity = response.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                loginUser = new Gson().fromJson(responseString,User.class);
+                System.out.println(loginUser);
+
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent mainView = fxmlLoader.load((getClass().getResource("mainView.fxml").openStream()));
+                Scene scene = new Scene(mainView);
+                primaryStage.setScene(scene);
+                //primaryStage.initStyle(StageStyle.TRANSPARENT);
+                primaryStage.setTitle("ToSloth app");
+
+
+
+
+            }else {
+                Thread thread = new Thread() {
+                    public void run() {
+                        try {
+                            wrongLoPLabel.setVisible(true);
+
+                            sleep(10000);
+
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        wrongLoPLabel.setVisible(false);
+                    }
+                };
+                thread.start();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -525,6 +562,10 @@ public class SplashViewController implements Initializable {
     public void checkIfEnter(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER)
             logInButtonOMC();
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 }
 
