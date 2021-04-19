@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -12,6 +13,8 @@ public class User {
     private String firstname;
     private String lastname;
     private String email;
+
+    private ArrayList<Goal> goalsArrayList = new ArrayList<>();
 
     public User() {}
 
@@ -74,6 +77,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ArrayList<Goal> getGoalsArrayList() {
+        return goalsArrayList;
+    }
+
+    public void setGoalsArrayList(ArrayList<Goal> goalsArrayList) {
+        this.goalsArrayList = goalsArrayList;
     }
 
     @Override

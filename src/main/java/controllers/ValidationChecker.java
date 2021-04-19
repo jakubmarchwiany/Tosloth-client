@@ -1,9 +1,10 @@
 package controllers;
 
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
-
-import java.util.ArrayList;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class ValidationChecker {
 

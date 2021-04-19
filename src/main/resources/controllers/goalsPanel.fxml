@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GoalsPanelController">
+   <children>
+      <Label layoutX="57.0" layoutY="72.0" text="Goals to do today" textFill="#fffafa">
+         <font>
+            <Font name="Agency FB" size="30.0" />
+         </font>
+      </Label>
+      <ListView fx:id="goalsToDoTodayListView" layoutX="56.0" layoutY="132.0" prefHeight="69.0" prefWidth="1000.0" />
+      <Label layoutX="55.0" layoutY="208.0" text="Goals of the week" textFill="#fffafa">
+         <font>
+            <Font name="Agency FB" size="30.0" />
+         </font>
+      </Label>
+      <ListView fx:id="goalsOfTheWeekListView" layoutX="56.0" layoutY="257.0" prefHeight="99.0" prefWidth="1000.0" />
+      <Label layoutX="56.0" layoutY="365.0" text="Goals of the month" textFill="#fffafa">
+         <font>
+            <Font name="Agency FB" size="30.0" />
+         </font>
+      </Label>
+      <ListView fx:id="goalsOfTheMonthListView" layoutX="56.0" layoutY="411.0" prefHeight="88.0" prefWidth="1000.0" />
+      <Label layoutX="55.0" layoutY="510.0" text="Last completed goals" textFill="#fffafa">
+         <font>
+            <Font name="Agency FB" size="30.0" />
+         </font>
+      </Label>
+      <ListView fx:id="lastCompletedGoalsListView" layoutX="56.0" layoutY="563.0" prefHeight="69.0" prefWidth="1000.0" />
+      <Button layoutX="406.0" layoutY="22.0" mnemonicParsing="false" onMouseClicked="#addGoalOMC" prefHeight="50.0" prefWidth="130.0" text="Add Goal" />
+   </children>
+</Pane>

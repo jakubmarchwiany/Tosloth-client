@@ -8,21 +8,21 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.*;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import model.User;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -116,6 +116,8 @@ public class SplashViewController implements Initializable {
         signUpButton.setVisible(true);
 
     }
+
+
 
     public void textFieldClicked() {
 
@@ -246,7 +248,7 @@ public class SplashViewController implements Initializable {
                 nicknameSiTF.setVisible(false);
                 passwordSiPF.setVisible(false);
                 signInIcon.setVisible(false);
-
+                wrongLoPLabel.setVisible(false);
 
                 signUpButton.setVisible(false);
                 nicknameTF.setVisible(true);
@@ -306,6 +308,7 @@ public class SplashViewController implements Initializable {
                 signUpIcon.setVisible(false);
                 SignUpLabel.setVisible(false);
                 userExistInDataBaseLabel.setVisible(false);
+
 
                 signInLabel.setVisible(true);
                 nicknameSiTF.setVisible(true);
@@ -438,8 +441,13 @@ public class SplashViewController implements Initializable {
                 Parent mainView = fxmlLoader.load((getClass().getResource("mainView.fxml").openStream()));
                 Scene scene = new Scene(mainView);
                 primaryStage.setScene(scene);
-                //primaryStage.initStyle(StageStyle.TRANSPARENT);
-                primaryStage.setTitle("ToSloth app");
+
+
+                MainViewController mainViewController = fxmlLoader.getController();
+
+                User user = new User();
+                mainViewController.setUser(user);
+                mainViewController.prepareMainGui();
 
 
 
