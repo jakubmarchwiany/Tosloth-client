@@ -7,6 +7,10 @@ import model.Goal;
 import model.User;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 
 public class GoalsPanelController {
@@ -35,6 +39,28 @@ public class GoalsPanelController {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void prepareListViews(){
+        LocalDate todayDate = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String goalDateString;
+        for (Goal goal : user.getGoalsArrayList()){
+            goalDateString = goal.getDeadlineTime();
+            LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
+
+            long number = DAYS.between(todayDate, goalDate);
+
+            if (number == 0)
+                goalsToDoTodayListView.getItems().add(goal);
+            else if (number >= 1 && number <=7)
+                goalsOfTheWeekListView.getItems().add(goal);
+            else if (number >= 8 && number <=31)
+                goalsOfTheMonthListView.getItems().add(goal);
+
         }
     }
 

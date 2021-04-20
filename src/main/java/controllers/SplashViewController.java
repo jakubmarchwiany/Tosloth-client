@@ -20,29 +20,30 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.Goal;
 import model.User;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
-
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class SplashViewController implements Initializable {
 
-
     //Variables
 
-    private User loginUser;
     private Stage primaryStage;
 
 
@@ -57,7 +58,6 @@ public class SplashViewController implements Initializable {
 
     public Label SignUpLabel;
     public Button signUpButton;
-
     public TextField nicknameTF;
     public TextField firstnameTF;
     public TextField lastnameTF;
@@ -65,10 +65,8 @@ public class SplashViewController implements Initializable {
     public PasswordField passwordPF;
     public PasswordField confirmPasswordPF;
     public FontIcon signUpIcon;
-
     public Label userExistInDataBaseLabel;
     private final TextFlow textFlow = new TextFlow();
-
 
     //Components JavaFx login
 
@@ -76,7 +74,6 @@ public class SplashViewController implements Initializable {
     public Label wrongLoPLabel;
     public Label signInLabel;
     public Button signInButton;
-
     public TextField nicknameSiTF;
     public PasswordField passwordSiPF;
     public FontIcon signInIcon;
@@ -334,16 +331,12 @@ public class SplashViewController implements Initializable {
 
     public void registerOMC() {
         try {
-            User tempUser = null;
-            try {
-                tempUser = new User(nicknameTF.getText(),
-                        hashPassword(passwordPF.getText()),
+            User tempUser = new User(nicknameTF.getText(),
+                        (passwordPF.getText()),
                         firstnameTF.getText(),
                         lastnameTF.getText(),
                         emailTF.getText());
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
+
 
             System.out.println(tempUser.toString());
 
@@ -410,12 +403,8 @@ public class SplashViewController implements Initializable {
     }
 
     public void logInButtonOMC() {
-        User tempUser = null;
-        try {
-            tempUser = new User(nicknameSiTF.getText(),hashPassword(passwordSiPF.getText()));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        User tempUser = new User(nicknameSiTF.getText(),(passwordSiPF.getText()));
+
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -434,8 +423,30 @@ public class SplashViewController implements Initializable {
             {
                 HttpEntity entity = response.getEntity();
                 String responseString = EntityUtils.toString(entity, "UTF-8");
-                loginUser = new Gson().fromJson(responseString,User.class);
+                User loginUser = new Gson().fromJson(responseString, User.class);
                 System.out.println(loginUser);
+
+
+
+
+                CloseableHttpClient httpClient2 = HttpClients.createDefault();
+
+                HttpGet getRequest2 = new HttpGet("http://localhost:8080/goals/"+ loginUser.getNickname());
+
+                getRequest2.addHeader("content-type", "application/json; charset=UTF-8");
+
+                HttpResponse response2 = httpClient.execute(getRequest2);
+
+                HttpEntity entity2 = response2.getEntity();
+                String responseString2 = EntityUtils.toString(entity2, "UTF-8");
+
+                //Goal[] goalArray = new Gson.fromJson(userJson, User[].class);
+
+                Goal[] goalArray = new Gson().fromJson(responseString2,Goal[].class);
+
+
+                loginUser.setGoalsArrayList(new ArrayList<>(Arrays.asList(goalArray)));
+
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent mainView = fxmlLoader.load((getClass().getResource("mainView.fxml").openStream()));
@@ -445,8 +456,7 @@ public class SplashViewController implements Initializable {
 
                 MainViewController mainViewController = fxmlLoader.getController();
 
-                User user = new User();
-                mainViewController.setUser(user);
+                mainViewController.setUser(loginUser);
                 mainViewController.prepareMainGui();
 
 
@@ -550,21 +560,6 @@ public class SplashViewController implements Initializable {
     public void focusOn() {
         layer1.requestFocus();
         textFlow.setVisible(false);
-    }
-
-    public String hashPassword(String password) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for (int i = 0; i < hash.length; i++) {
-            String hex = Integer.toHexString(0xff & hash[i]);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-       return hexString.toString();
     }
 
     public void checkIfEnter(KeyEvent keyEvent) {

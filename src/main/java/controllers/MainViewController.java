@@ -34,7 +34,7 @@ public class MainViewController {
             goalsPanelController.setMainViewController(MainViewController.this);
             System.out.println(user.toString());
             goalsPanelController.setUser(user);
-
+            goalsPanelController.prepareListViews();
 
         } catch (IOException e) {
             e.printStackTrace();

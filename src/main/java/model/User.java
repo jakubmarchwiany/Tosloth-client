@@ -1,5 +1,8 @@
 package model;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -18,17 +21,19 @@ public class User {
 
     public User() {}
 
+
+
     public User(String nickname, String password, String firstname, String lastname, String email) {
         this.nickname = nickname;
-        this.password = password;
+        this.password = hashPassword(password);
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
     }
 
-    public User(String text, String hashPassword) {
+    public User(String text, String password) {
         nickname = text;
-        password = hashPassword;
+        this.password = hashPassword(password);
     }
 
     public String getId() {
@@ -97,6 +102,27 @@ public class User {
         return Objects.equals(this.id, employee.id) && Objects.equals(this.nickname, employee.nickname);
     }
 
+    public String hashPassword(String password)  {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            StringBuilder hexString = new StringBuilder(2 * hash.length);
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(this.id, this.nickname);
@@ -105,7 +131,9 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "nickname='" + nickname + '\'' +
+                "id='" + id + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +

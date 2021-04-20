@@ -2,28 +2,55 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Goal {
+
+
+    private String id;
+    private String owner;
 
     private String name;
     private String description;
     private Interval interval;
     private Boolean done;
-    private LocalDateTime creationTime;
-    private LocalDateTime endTime;
-    private LocalDateTime deadlineTime;
+    private String creationTime;
+    private String endTime;
+    private String deadlineTime;
     private ArrayList<Goal> subGoalsArrayList = new ArrayList<>();
 
 
-    public Goal(String name, String description, Interval interval, Boolean done, LocalDate deadlineTime) {
+    public Goal(String owner, String name, String description, Interval interval, Boolean done, LocalDate deadlineTime) {
+        this.owner = owner;
         this.name = name;
         this.description = description;
         this.interval = interval;
         this.done = done;
-        this.creationTime = LocalDateTime.now();
-        this.deadlineTime = deadlineTime.atStartOfDay();
-//        this.deadlineTime = java.sql.Date.valueOf(deadlineTime);
+
+        LocalDateTime tempTime = deadlineTime.atStartOfDay();
+
+        DateTimeFormatter formatterDeadlineTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.deadlineTime = tempTime.format(formatterDeadlineTime);
+
+        DateTimeFormatter formatterCreationTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.creationTime = LocalDateTime.now().format(formatterCreationTime);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getName() {
@@ -58,27 +85,27 @@ public class Goal {
         this.done = done;
     }
 
-    public LocalDateTime getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(LocalDateTime creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public LocalDateTime getDeadlineTime() {
+    public String getDeadlineTime() {
         return deadlineTime;
     }
 
-    public void setDeadlineTime(LocalDateTime deadlineTime) {
+    public void setDeadlineTime(String deadlineTime) {
         this.deadlineTime = deadlineTime;
     }
 
@@ -92,7 +119,9 @@ public class Goal {
 
     @Override
     public String toString() {
-        return name;
+        return "Goal{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
 

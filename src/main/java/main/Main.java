@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Date;
 
 
 public class Main extends Application {
@@ -20,12 +18,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        Date date = new Date();
-
-        LocalDate localDate = LocalDate.now();
-
-
         try {
 
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -41,12 +33,9 @@ public class Main extends Application {
 
             splashViewController.setPrimaryStage(primaryStage);
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 }
 
