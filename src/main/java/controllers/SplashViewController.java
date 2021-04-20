@@ -33,9 +33,6 @@ import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -52,7 +49,8 @@ public class SplashViewController implements Initializable {
     public AnchorPane layer1;
     public AnchorPane layer2;
 
-    private final ValidationChecker validationChecker = new ValidationChecker();
+    public final ValidationChecker validationChecker = new ValidationChecker();
+    public final AnimationController animationController = new AnimationController();
 
     //Components JavaFx registration
 
@@ -66,7 +64,9 @@ public class SplashViewController implements Initializable {
     public PasswordField confirmPasswordPF;
     public FontIcon signUpIcon;
     public Label userExistInDataBaseLabel;
-    private final TextFlow textFlow = new TextFlow();
+
+    public TextFlow textFlow = new TextFlow();
+
 
     //Components JavaFx login
 
@@ -79,254 +79,23 @@ public class SplashViewController implements Initializable {
     public FontIcon signInIcon;
 
     private double x,y;
-    private final int[] tab = new int[] {0,0,0,0,0,0};
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //textArea options
-        validationChecker.setTab(tab);
 
-        layer1.getChildren().add(textFlow);
+        validationChecker.setNodes(SplashViewController.this);
+        animationController.setNodes(SplashViewController.this);
 
         textFlow.setStyle("-fx-background-color: WHITE");
-
         textFlow.setMinSize(200,100);
         textFlow.setVisible(false);
         textFlow.setFocusTraversable(false);
+        layer1.getChildren().add(textFlow);
         validationChecker.setTextFlow(textFlow);
 
+        animationController.disableNodesLogIn();
 
-        signInButton.setVisible(false);
-        signInLabel.setVisible(true);
-        nicknameSiTF.setVisible(true);
-        passwordSiPF.setVisible(true);
-        signInIcon.setVisible(true);
-
-        nicknameTF.setVisible(false);
-        firstnameTF.setVisible(false);
-        emailTF.setVisible(false);
-        lastnameTF.setVisible(false);
-        passwordPF.setVisible(false);
-        confirmPasswordPF.setVisible(false);
-        signUpIcon.setVisible(false);
-        SignUpLabel.setVisible(false);
-        signUpButton.setVisible(true);
-
-    }
-
-
-
-    public void textFieldClicked() {
-
-        if (nicknameTF.isFocused()) {
-            Bounds nicknameTFBounds = nicknameTF.localToScene(nicknameTF.getBoundsInLocal());
-            textFlow.setLayoutX(nicknameTFBounds.getCenterX());
-            textFlow.setLayoutY(nicknameTFBounds.getMaxY());
-
-            validationChecker.checkRegisterValidation(nicknameTF.getText(),0);
-
-            if(tab[0] == 1)
-                nicknameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            else
-                nicknameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-
-            textFlow.setVisible(true);
-        } else if (firstnameTF.isFocused()){
-            Bounds firstnameBounds = firstnameTF.localToScene(firstnameTF.getBoundsInLocal());
-            textFlow.setLayoutX(firstnameBounds.getCenterX());
-            textFlow.setLayoutY(firstnameBounds.getMaxY());
-
-            validationChecker.checkRegisterValidation(firstnameTF.getText(),1);
-
-            if(tab[1] == 1)
-                firstnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            else
-                firstnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-            textFlow.setVisible(true);
-        } else if (lastnameTF.isFocused()) {
-            Bounds lastnameBounds = lastnameTF.localToScene(lastnameTF.getBoundsInLocal());
-            textFlow.setLayoutX(lastnameBounds.getCenterX());
-            textFlow.setLayoutY(lastnameBounds.getMaxY());
-
-            validationChecker.checkRegisterValidation(lastnameTF.getText(),2);
-
-            if(tab[2] == 1)
-                lastnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            else
-                lastnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-            textFlow.setVisible(true);
-        } else if (emailTF.isFocused()){
-            Bounds emailBounds = emailTF.localToScene(emailTF.getBoundsInLocal());
-            textFlow.setLayoutX(emailBounds.getCenterX());
-            textFlow.setLayoutY(emailBounds.getMaxY());
-
-            validationChecker.checkRegisterEmailValidation(emailTF.getText(),3);
-
-            if(tab[3] == 1)
-                emailTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            else
-                emailTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-            textFlow.setVisible(true);
-        } else if (passwordPF.isFocused()) {
-            Bounds passwordBounds = passwordPF.localToScene(passwordPF.getBoundsInLocal());
-            textFlow.setLayoutX(passwordBounds.getCenterX());
-            textFlow.setLayoutY(passwordBounds.getMaxY());
-
-            validationChecker.checkPasswordsValidation(passwordPF.getText(),confirmPasswordPF.getText(),4);
-
-            if(tab[4] == 1 && tab[5] == 1) {
-                passwordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-                confirmPasswordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            }else {
-                passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-                confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-            }
-            textFlow.setVisible(true);
-        } else if (confirmPasswordPF.isFocused()){
-            Bounds confirmPasswordBounds = confirmPasswordPF.localToScene(confirmPasswordPF.getBoundsInLocal());
-            textFlow.setLayoutX(confirmPasswordBounds.getCenterX());
-            textFlow.setLayoutY(confirmPasswordBounds.getMaxY());
-
-            validationChecker.checkPasswordsValidation(confirmPasswordPF.getText(),passwordPF.getText(),4);
-
-            if(tab[4] == 1 && tab[5] == 1) {
-                passwordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-                confirmPasswordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            }else {
-                passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-                confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-            }
-
-            textFlow.setVisible(true);
-        }else {
-            textFlow.setVisible(false);
-
-        }
-
-        int sum=0;
-        for(int i = 0; i < tab.length;i++)
-          sum+=tab[i];
-
-
-        if(sum == 6) {
-            signUpIcon.setIconColor(Color.GREEN);
-            signUpIcon.setDisable(false);
-        }else {
-            signUpIcon.setIconColor(Color.RED);
-            signUpIcon.setDisable(true);
-        }
-    }
-
-    public void signUpOMC() {
-        textFieldClicked();
-        Thread thread = new Thread(() -> {
-            try {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(1));
-                slide.setNode(layer2);
-                slide.setToX(-880);
-                slide.play();
-
-                TranslateTransition slide2 = new TranslateTransition();
-                slide2.setDuration(Duration.seconds(1));
-                slide2.setNode(layer1);
-                slide2.setToX(-880);
-                slide2.play();
-
-
-                Thread.sleep(1000);
-
-                signInButton.setVisible(true);
-                signInLabel.setVisible(false);
-                nicknameSiTF.setVisible(false);
-                passwordSiPF.setVisible(false);
-                signInIcon.setVisible(false);
-                wrongLoPLabel.setVisible(false);
-
-                signUpButton.setVisible(false);
-                nicknameTF.setVisible(true);
-                firstnameTF.setVisible(true);
-                emailTF.setVisible(true);
-                lastnameTF.setVisible(true);
-                passwordPF.setVisible(true);
-                confirmPasswordPF.setVisible(true);
-                signUpIcon.setVisible(true);
-                SignUpLabel.setVisible(true);
-
-
-
-                TranslateTransition slide3 = new TranslateTransition();
-                slide3.setDuration(Duration.seconds(1));
-                slide3.setNode(layer1);
-                slide3.setToX(0);
-                slide3.play();
-
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        });
-        thread.start();
-    }
-
-    public void logInOMC() {
-        resetTextFields();
-        Thread thread = new Thread(() -> {
-            try {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(1));
-                slide.setNode(layer2);
-
-                slide.setToX(0);
-                slide.play();
-
-                TranslateTransition slide2 = new TranslateTransition();
-                slide2.setDuration(Duration.seconds(1));
-                slide2.setNode(layer1);
-
-                slide2.setToX(880);
-                slide2.play();
-
-                Thread.sleep(1000);
-
-                signInButton.setVisible(false);
-                nicknameTF.setVisible(false);
-                firstnameTF.setVisible(false);
-                emailTF.setVisible(false);
-                lastnameTF.setVisible(false);
-                passwordPF.setVisible(false);
-                confirmPasswordPF.setVisible(false);
-                signUpIcon.setVisible(false);
-                SignUpLabel.setVisible(false);
-                userExistInDataBaseLabel.setVisible(false);
-
-
-                signInLabel.setVisible(true);
-                nicknameSiTF.setVisible(true);
-                passwordSiPF.setVisible(true);
-                signInIcon.setVisible(true);
-                signUpButton.setVisible(true);
-
-                TranslateTransition slide3 = new TranslateTransition();
-                slide3.setDuration(Duration.seconds(1));
-                slide3.setNode(layer1);
-
-                slide3.setToX(0);
-                slide3.play();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        });
-        thread.start();
     }
 
     public void registerOMC() {
@@ -358,7 +127,7 @@ public class SplashViewController implements Initializable {
                 Thread thread = new Thread(){
                     public void run(){
                         try {
-                            logInOMC();
+                            animationController.logInOMC();
                             sleep(1000);
 
                             infoLabel.setVisible(true);
@@ -440,7 +209,7 @@ public class SplashViewController implements Initializable {
                 HttpEntity entity2 = response2.getEntity();
                 String responseString2 = EntityUtils.toString(entity2, "UTF-8");
 
-                //Goal[] goalArray = new Gson.fromJson(userJson, User[].class);
+
 
                 Goal[] goalArray = new Gson().fromJson(responseString2,Goal[].class);
 
@@ -458,9 +227,6 @@ public class SplashViewController implements Initializable {
 
                 mainViewController.setUser(loginUser);
                 mainViewController.prepareMainGui();
-
-
-
 
             }else {
                 Thread thread = new Thread() {
@@ -484,56 +250,16 @@ public class SplashViewController implements Initializable {
         }
     }
 
-    public void resetTextFields(){
+    public void textFieldClicked() {
+        validationChecker.textFieldClicked();
+    }
 
-        nicknameTF.clear();
-        firstnameTF.clear();
-        emailTF.clear();
-        lastnameTF.clear();
-        passwordPF.clear();
-        confirmPasswordPF.clear();
+    public void signUpOMC(MouseEvent mouseEvent) {
+        animationController.signUpOMC();
+    }
 
-        tab[0] = 0;
-        tab[1] = 0;
-        tab[2] = 0;
-        tab[3] = 0;
-        tab[4] = 0;
-        tab[5] = 0;
-
-
-
-
-
-        if(tab[0] == 1)
-            nicknameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-        else
-            nicknameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-        if(tab[1] == 1)
-            firstnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-        else
-            firstnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-        if(tab[2] == 1)
-            lastnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-        else
-            lastnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-        if(tab[3] == 1)
-            emailTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-        else
-            emailTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-
-        if(tab[4] == 1 && tab[5] == 1) {
-            passwordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-            confirmPasswordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-        }else {
-            passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-            confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        }
-
-
-
+    public void logInOMC(MouseEvent mouseEvent) {
+        animationController.logInOMC();
     }
 
     public void dragged(MouseEvent mouseEvent) {
@@ -559,7 +285,7 @@ public class SplashViewController implements Initializable {
 
     public void focusOn() {
         layer1.requestFocus();
-        textFlow.setVisible(false);
+        validationChecker.textFlow.setVisible(false);
     }
 
     public void checkIfEnter(KeyEvent keyEvent) {
@@ -571,4 +297,3 @@ public class SplashViewController implements Initializable {
         this.primaryStage = primaryStage;
     }
 }
-
