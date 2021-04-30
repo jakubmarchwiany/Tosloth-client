@@ -26,7 +26,7 @@
                   </Label>
                   <TextField fx:id="nicknameSiTF" layoutX="266.0" layoutY="290.0" prefHeight="37.0" prefWidth="348.0" promptText="NICKNAME" />
                   <PasswordField fx:id="passwordSiPF" layoutX="266.0" layoutY="342.0" onKeyReleased="#checkIfEnter" prefHeight="37.0" prefWidth="348.0" promptText="PASSWORD" />
-                  <FontIcon fx:id="signInIcon" fill="#0691a5" iconLiteral="fa-arrow-circle-o-right" iconSize="100" layoutX="397.0" layoutY="535.0" onMouseClicked="#logInButtonOMC">
+                  <FontIcon fx:id="signInIcon" fill="#0691a5" iconLiteral="fa-arrow-circle-o-right" iconSize="100" layoutX="397.0" layoutY="535.0" onMouseClicked="#userLogin">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -42,7 +42,7 @@
                   <TextField fx:id="emailTF" layoutX="707.0" layoutY="340.0" onKeyReleased="#textFieldClicked" onMouseClicked="#textFieldClicked" prefHeight="35.0" prefWidth="260.0" promptText="EMAIL" style="-fx-border-color: #82642c; -fx-border-width: 2px;" visible="false" />
                   <PasswordField fx:id="passwordPF" layoutX="572.0" layoutY="385.0" onKeyReleased="#textFieldClicked" onMouseClicked="#textFieldClicked" prefHeight="35.0" prefWidth="260.0" promptText="PASSWORD" style="-fx-border-color: #82642c; -fx-border-width: 2px;" visible="false" />
                   <PasswordField fx:id="confirmPasswordPF" layoutX="842.0" layoutY="385.0" onKeyReleased="#textFieldClicked" onMouseClicked="#textFieldClicked" prefHeight="35.0" prefWidth="260.0" promptText="CONFIRM PASSWORD" style="-fx-border-color: #82642c; -fx-border-width: 2px;" visible="false" />
-                  <FontIcon fx:id="signUpIcon" iconColor="RED" iconLiteral="fa-drivers-license-o" iconSize="150" layoutX="750.0" layoutY="602.0" onMouseClicked="#registerOMC" visible="false">
+                  <FontIcon fx:id="signUpIcon" iconColor="RED" iconLiteral="fa-drivers-license-o" iconSize="150" layoutX="750.0" layoutY="602.0" onMouseClicked="#userRegister" visible="false">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

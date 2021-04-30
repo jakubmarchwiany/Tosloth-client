@@ -2,7 +2,6 @@ package controllers;
 
 import com.google.gson.Gson;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import model.Goal;
 import model.Interval;
 import model.User;
@@ -13,25 +12,21 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
-public class GoalMakerController {
+public class SubGoalMakerController {
 
     public User user;
+
+    public Goal goal;
+
+
+    public GoalManagerController goalManagerController;
+    public MainViewController mainViewController;
 
     public TextField nameTextField;
     public TextArea descriptionTextArea;
     public DatePicker dataPicker;
     public ToggleGroup periodicityGroup;
-
-    private MainViewController mainViewController;
-    private GoalsPanelController goalsPanelController;
-
     public RadioButton noneRadioButton;
     public RadioButton dayRadioButton;
     public RadioButton weekRadioButton;
@@ -40,11 +35,7 @@ public class GoalMakerController {
 
     public void backOMC() {
         mainViewController.getActionPanel().getChildren().clear();
-        mainViewController.getActionPanel().getChildren().add(mainViewController.goalsPanel);
-    }
-
-    public void setMainViewController(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+        mainViewController.getActionPanel().getChildren().add(goalManagerController.goalManager);
     }
 
     public void makeGoal() {
@@ -61,14 +52,13 @@ public class GoalMakerController {
 
         Goal tempGoal = new Goal(user.getNickname(), nameTextField.getText(),descriptionTextArea.getText(), interval, false, dataPicker.getValue());
 
-        user.getGoalsArrayList().add(tempGoal);
+        goal.getSubGoalsArrayList().add(tempGoal);
 
-        addGoalToListview(tempGoal);
-
+        goalManagerController.subGoalsListView.getItems().add(tempGoal);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost postRequest = new HttpPost("http://localhost:8080/goals");
-        StringEntity newGoal = new StringEntity(new Gson().toJson(tempGoal), "UTF-8");
+        HttpPost postRequest = new HttpPost("http://localhost:8080/goals/update");
+        StringEntity newGoal = new StringEntity(new Gson().toJson(goal), "UTF-8");
 
 
         postRequest.addHeader("content-type", "application/json; charset=UTF-8");
@@ -80,33 +70,23 @@ public class GoalMakerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
 
-    public void addGoalToListview(Goal goal){
-
-        String goalDateString = goal.getDeadlineTime();
-        System.out.println(goalDateString);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
-
-        LocalDate todayDate = LocalDate.now();
-
-        long number = DAYS.between(todayDate, goalDate);
-
-        if (number == 0)
-            goalsPanelController.goalsToDoTodayListView.getItems().add(goal);
-        else if (number >= 1 && number <=7)
-            goalsPanelController.goalsOfTheWeekListView.getItems().add(goal);
-        else if (number >= 8 && number <=31)
-            goalsPanelController.goalsOfTheMonthListView.getItems().add(goal);
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setGoalsPanelController(GoalsPanelController goalsPanelController) {
-        this.goalsPanelController = goalsPanelController;
+    public void setGoalManagerController(GoalManagerController goalManagerController) {
+        this.goalManagerController = goalManagerController;
+    }
+
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
     }
 }

@@ -109,6 +109,13 @@ public class Goal {
         this.deadlineTime = deadlineTime;
     }
 
+    public void setDeadlineTime(LocalDate deadlineTime){
+        LocalDateTime tempTime = deadlineTime.atStartOfDay();
+
+        DateTimeFormatter formatterDeadlineTime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.deadlineTime = tempTime.format(formatterDeadlineTime);
+    }
+
     public ArrayList<Goal> getSubGoalsArrayList() {
         return subGoalsArrayList;
     }
@@ -119,9 +126,7 @@ public class Goal {
 
     @Override
     public String toString() {
-        return "Goal{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }
 

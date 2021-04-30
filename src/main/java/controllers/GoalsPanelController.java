@@ -1,7 +1,11 @@
 package controllers;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import model.Goal;
 import model.User;
@@ -42,7 +46,91 @@ public class GoalsPanelController {
         }
     }
 
+    public void listViewOMC()  {
+
+        goalsToDoTodayListView.setOnMouseClicked(lv -> {
+
+            ContextMenu gaolContextMenu = new ContextMenu();
+            MenuItem go_into_goal = new MenuItem("Go into goal");
+
+            go_into_goal.setOnAction(actionEvent -> {
+                Goal selectedGaol = goalsToDoTodayListView.getSelectionModel().getSelectedItem();
+                loadManagerGoal(selectedGaol);
+            });
+
+            gaolContextMenu.getItems().add(go_into_goal);
+
+            if(goalsToDoTodayListView.getSelectionModel().getSelectedItem()==null)
+                goalsToDoTodayListView.setContextMenu(null);
+            else
+                goalsToDoTodayListView.setContextMenu(gaolContextMenu);
+        });
+
+        goalsOfTheWeekListView.setOnMouseClicked(lv -> {
+
+            ContextMenu gaolContextMenu = new ContextMenu();
+            MenuItem go_into_goal = new MenuItem("Go into goal");
+
+            go_into_goal.setOnAction(actionEvent -> {
+                Goal selectedGaol = goalsOfTheWeekListView.getSelectionModel().getSelectedItem();
+                loadManagerGoal(selectedGaol);
+            });
+
+            gaolContextMenu.getItems().add(go_into_goal);
+
+            if(goalsOfTheWeekListView.getSelectionModel().getSelectedItem()==null)
+                goalsOfTheWeekListView.setContextMenu(null);
+            else
+                goalsOfTheWeekListView.setContextMenu(gaolContextMenu);
+        });
+
+        goalsOfTheMonthListView.setOnMouseClicked(lv -> {
+
+            ContextMenu gaolContextMenu = new ContextMenu();
+            MenuItem go_into_goal = new MenuItem("Go into goal");
+
+            go_into_goal.setOnAction(actionEvent -> {
+                Goal selectedGaol = goalsOfTheMonthListView.getSelectionModel().getSelectedItem();
+                loadManagerGoal(selectedGaol);
+            });
+
+            gaolContextMenu.getItems().add(go_into_goal);
+
+            if(goalsOfTheMonthListView.getSelectionModel().getSelectedItem()==null)
+                goalsOfTheMonthListView.setContextMenu(null);
+            else
+                goalsOfTheMonthListView.setContextMenu(gaolContextMenu);
+        });
+
+    }
+
+    private void loadManagerGoal(Goal selectedGaol){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent goalManager = fxmlLoader.load((getClass().getResource("goalManager.fxml").openStream()));
+            mainViewController.getActionPanel().getChildren().add(goalManager);
+
+            GoalManagerController goalManagerController = fxmlLoader.getController();
+
+            goalManagerController.setGoalsPanelController(GoalsPanelController.this);
+            goalManagerController.setMainViewController(mainViewController);
+            goalManagerController.setGoal(selectedGaol);
+            goalManagerController.prepareGoalManagerGui();
+            goalManagerController.setUser(user);
+            goalManagerController.setGoalManager(goalManager);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void prepareListViews(){
+        goalsToDoTodayListView.getItems().clear();
+        goalsOfTheWeekListView.getItems().clear();
+        goalsOfTheMonthListView.getItems().clear();
+
         LocalDate todayDate = LocalDate.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -71,4 +159,6 @@ public class GoalsPanelController {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 }

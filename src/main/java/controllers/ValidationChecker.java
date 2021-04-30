@@ -133,7 +133,7 @@ public class ValidationChecker {
     public boolean lengthCheck(String text){
         Text lengthText;
 
-        if(text.length() >= minLength && text.length() <= maxLength) {
+        if(text.length() >= minLength && text.length() <= maxLength+20) {
             lengthText = new Text("Length correctly\n");
             lengthText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
             lengthText.setFill(Color.GREEN);

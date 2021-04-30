@@ -13,19 +13,19 @@
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsToDoTodayListView" layoutX="56.0" layoutY="132.0" prefHeight="69.0" prefWidth="1000.0" />
+      <ListView fx:id="goalsToDoTodayListView" layoutX="56.0" layoutY="132.0" onMouseClicked="#listViewOMC" prefHeight="69.0" prefWidth="1000.0" />
       <Label layoutX="55.0" layoutY="208.0" text="Goals of the week" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsOfTheWeekListView" layoutX="56.0" layoutY="257.0" prefHeight="99.0" prefWidth="1000.0" />
+      <ListView fx:id="goalsOfTheWeekListView" layoutX="56.0" layoutY="257.0" onMouseClicked="#listViewOMC" prefHeight="99.0" prefWidth="1000.0" />
       <Label layoutX="56.0" layoutY="365.0" text="Goals of the month" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsOfTheMonthListView" layoutX="56.0" layoutY="411.0" prefHeight="88.0" prefWidth="1000.0" />
+      <ListView fx:id="goalsOfTheMonthListView" layoutX="56.0" layoutY="411.0" onMouseClicked="#listViewOMC" prefHeight="88.0" prefWidth="1000.0" />
       <Label layoutX="55.0" layoutY="510.0" text="Last completed goals" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />

@@ -21,8 +21,6 @@ public class User {
 
     public User() {}
 
-
-
     public User(String nickname, String password, String firstname, String lastname, String email) {
         this.nickname = nickname;
         this.password = hashPassword(password);
