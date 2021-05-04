@@ -1,6 +1,6 @@
 package main;
 
-import controllers.SplashViewController;
+import controllers.splashview.SplashViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,6 +32,7 @@ public class Main extends Application {
             SplashViewController splashViewController = fxmlLoader.getController();
 
             splashViewController.setPrimaryStage(primaryStage);
+            splashViewController.prepareSplashView();
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GoalMakerController">
+<AnchorPane prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalMakerController">
    <children>
       <TextField fx:id="nameTextField" layoutX="418.0" layoutY="113.0" prefHeight="43.0" prefWidth="432.0" promptText="name" />
       <TextArea fx:id="descriptionTextArea" layoutX="418.0" layoutY="172.0" prefHeight="200.0" prefWidth="432.0" promptText="description" />

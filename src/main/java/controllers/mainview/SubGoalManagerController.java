@@ -1,12 +1,10 @@
-package controllers;
+package controllers.mainview;
 
 import com.google.gson.Gson;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import model.Goal;
 import model.Interval;
-import model.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

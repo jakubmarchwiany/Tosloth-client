@@ -1,8 +1,7 @@
-package controllers;
+package controllers.mainview;
 
 import com.google.gson.Gson;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import model.Goal;
 import model.Interval;
 import model.User;
@@ -14,9 +13,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 

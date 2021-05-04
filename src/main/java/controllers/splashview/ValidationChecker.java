@@ -1,6 +1,7 @@
-package controllers;
+package controllers.splashview;
 
 
+import controllers.splashview.SplashViewController;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -10,6 +11,8 @@ import javafx.scene.text.TextFlow;
 
 
 public class ValidationChecker {
+
+    private SplashViewController nodes;
 
     private static final int minLength = 3;
     private static final int maxLength = 20;
@@ -21,7 +24,7 @@ public class ValidationChecker {
         this.textFlow = textFlow;
     }
 
-    private SplashViewController nodes;
+
 
     public final int[] tab = new int[] {0,0,0,0,0,0};
 
@@ -151,87 +154,87 @@ public class ValidationChecker {
 
     public void textFieldClicked() {
 
-        if (nodes.nicknameTF.isFocused()) {
-            Bounds nicknameTFBounds = nodes.nicknameTF.localToScene(nodes.nicknameTF.getBoundsInLocal());
+        if (nodes.nicknameSuTF.isFocused()) {
+            Bounds nicknameTFBounds = nodes.nicknameSuTF.localToScene(nodes.nicknameSuTF.getBoundsInLocal());
             textFlow.setLayoutX(nicknameTFBounds.getCenterX());
             textFlow.setLayoutY(nicknameTFBounds.getMaxY());
 
-            checkRegisterValidation(nodes.nicknameTF.getText(),0);
+            checkRegisterValidation(nodes.nicknameSuTF.getText(),0);
 
             if(tab[0] == 1)
-                nodes.nicknameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.nicknameSuTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             else
-                nodes.nicknameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.nicknameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
 
 
             textFlow.setVisible(true);
-        } else if (nodes.firstnameTF.isFocused()){
-            Bounds firstnameBounds = nodes.firstnameTF.localToScene(nodes.firstnameTF.getBoundsInLocal());
+        } else if (nodes.firstnameSuTF.isFocused()){
+            Bounds firstnameBounds = nodes.firstnameSuTF.localToScene(nodes.firstnameSuTF.getBoundsInLocal());
             textFlow.setLayoutX(firstnameBounds.getCenterX());
             textFlow.setLayoutY(firstnameBounds.getMaxY());
 
-            checkRegisterValidation(nodes.firstnameTF.getText(),1);
+            checkRegisterValidation(nodes.firstnameSuTF.getText(),1);
 
             if(tab[1] == 1)
-                nodes.firstnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.firstnameSuTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             else
-                nodes.firstnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.firstnameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
 
             textFlow.setVisible(true);
-        } else if (nodes.lastnameTF.isFocused()) {
-            Bounds lastnameBounds = nodes.lastnameTF.localToScene(nodes.lastnameTF.getBoundsInLocal());
+        } else if (nodes.lastnameSuTF.isFocused()) {
+            Bounds lastnameBounds = nodes.lastnameSuTF.localToScene(nodes.lastnameSuTF.getBoundsInLocal());
             textFlow.setLayoutX(lastnameBounds.getCenterX());
             textFlow.setLayoutY(lastnameBounds.getMaxY());
 
-            checkRegisterValidation(nodes.lastnameTF.getText(),2);
+            checkRegisterValidation(nodes.lastnameSuTF.getText(),2);
 
             if(tab[2] == 1)
-                nodes.lastnameTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.lastnameSuTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             else
-                nodes.lastnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.lastnameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
 
             textFlow.setVisible(true);
-        } else if (nodes.emailTF.isFocused()){
-            Bounds emailBounds = nodes.emailTF.localToScene(nodes.emailTF.getBoundsInLocal());
+        } else if (nodes.emailSuTF.isFocused()){
+            Bounds emailBounds = nodes.emailSuTF.localToScene(nodes.emailSuTF.getBoundsInLocal());
             textFlow.setLayoutX(emailBounds.getCenterX());
             textFlow.setLayoutY(emailBounds.getMaxY());
 
-            checkRegisterEmailValidation(nodes.emailTF.getText(),3);
+            checkRegisterEmailValidation(nodes.emailSuTF.getText(),3);
 
             if(tab[3] == 1)
-                nodes.emailTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.emailSuTF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             else
-                nodes.emailTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.emailSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
 
             textFlow.setVisible(true);
-        } else if (nodes.passwordPF.isFocused()) {
-            Bounds passwordBounds = nodes.passwordPF.localToScene(nodes.passwordPF.getBoundsInLocal());
+        } else if (nodes.passwordSuPF.isFocused()) {
+            Bounds passwordBounds = nodes.passwordSuPF.localToScene(nodes.passwordSuPF.getBoundsInLocal());
             textFlow.setLayoutX(passwordBounds.getCenterX());
             textFlow.setLayoutY(passwordBounds.getMaxY());
 
-            checkPasswordsValidation(nodes.passwordPF.getText(),nodes.confirmPasswordPF.getText(),4);
+            checkPasswordsValidation(nodes.passwordSuPF.getText(),nodes.confirmPasswordSuPF.getText(),4);
 
             if(tab[4] == 1 && tab[5] == 1) {
-                nodes.passwordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-                nodes.confirmPasswordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.passwordSuPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.confirmPasswordSuPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             }else {
-                nodes.passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-                nodes.confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.passwordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.confirmPasswordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
             }
             textFlow.setVisible(true);
-        } else if (nodes.confirmPasswordPF.isFocused()){
-            Bounds confirmPasswordBounds = nodes.confirmPasswordPF.localToScene(nodes.confirmPasswordPF.getBoundsInLocal());
+        } else if (nodes.confirmPasswordSuPF.isFocused()){
+            Bounds confirmPasswordBounds = nodes.confirmPasswordSuPF.localToScene(nodes.confirmPasswordSuPF.getBoundsInLocal());
             textFlow.setLayoutX(confirmPasswordBounds.getCenterX());
             textFlow.setLayoutY(confirmPasswordBounds.getMaxY());
 
-            checkPasswordsValidation(nodes.confirmPasswordPF.getText(),nodes.passwordPF.getText(),4);
+            checkPasswordsValidation(nodes.confirmPasswordSuPF.getText(),nodes.passwordSuPF.getText(),4);
 
             if(tab[4] == 1 && tab[5] == 1) {
-                nodes.passwordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
-                nodes.confirmPasswordPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.passwordSuPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
+                nodes.confirmPasswordSuPF.setStyle("-fx-border-color: GREEN; -fx-border-width: 3px");
             }else {
-                nodes.passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-                nodes.confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.passwordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+                nodes.confirmPasswordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
             }
 
             textFlow.setVisible(true);
@@ -254,12 +257,12 @@ public class ValidationChecker {
     }
 
     public void resetTextFields(){
-        nodes.nicknameTF.clear();
-        nodes.firstnameTF.clear();
-        nodes.emailTF.clear();
-        nodes.lastnameTF.clear();
-        nodes.passwordPF.clear();
-        nodes.confirmPasswordPF.clear();
+        nodes.nicknameSuTF.clear();
+        nodes.firstnameSuTF.clear();
+        nodes.emailSuTF.clear();
+        nodes.lastnameSuTF.clear();
+        nodes.passwordSuPF.clear();
+        nodes.confirmPasswordSuPF.clear();
 
         tab[0] = 0;
         tab[1] = 0;
@@ -268,12 +271,12 @@ public class ValidationChecker {
         tab[4] = 0;
         tab[5] = 0;
 
-        nodes.nicknameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        nodes.firstnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        nodes.lastnameTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        nodes.emailTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        nodes.passwordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
-        nodes.confirmPasswordPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.nicknameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.firstnameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.lastnameSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.emailSuTF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.passwordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
+        nodes.confirmPasswordSuPF.setStyle("-fx-border-color: RED; -fx-border-width: 3px");
     }
 
     public void setNodes(SplashViewController nodes) {

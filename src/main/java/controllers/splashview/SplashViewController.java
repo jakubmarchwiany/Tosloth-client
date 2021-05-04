@@ -1,8 +1,9 @@
-package controllers;
+package controllers.splashview;
 
 import com.google.gson.Gson;
+import controllers.mainview.MainViewController;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,76 +29,70 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle;
 
-public class SplashViewController implements Initializable {
+public class SplashViewController  {
 
     //Variables
     private Stage primaryStage;
     
     //Components JavaFx
-    public AnchorPane layer1;
-    public AnchorPane layer2;
+    public AnchorPane logInAndSignInLayer;
+    public AnchorPane changeViewLayer;
+    private double x,y;
 
     public final ValidationChecker validationChecker = new ValidationChecker();
     public final AnimationController animationController = new AnimationController();
 
-    //Components JavaFx registration
+    //JavaFx components Sign up
 
-    public Label SignUpLabel;
-    public Button signUpButton;
-    public TextField nicknameTF;
-    public TextField firstnameTF;
-    public TextField lastnameTF;
-    public TextField emailTF;
-    public PasswordField passwordPF;
-    public PasswordField confirmPasswordPF;
+    public Label signUpLabel;
+    public Button signUpBtn;
+    public TextField nicknameSuTF;
+    public TextField firstnameSuTF;
+    public TextField lastnameSuTF;
+    public TextField emailSuTF;
+    public PasswordField passwordSuPF;
+    public PasswordField confirmPasswordSuPF;
     public FontIcon signUpIcon;
     public Label userExistInDataBaseLabel;
-    public TextFlow textFlow = new TextFlow();
+    public TextFlow infoValidationTF = new TextFlow();
     
-    //Components JavaFx login
+    //JavaFx components to Sign in
 
-    public Label infoLabel;
-    public Label wrongLoPLabel;
     public Label signInLabel;
-    public Button signInButton;
     public TextField nicknameSiTF;
     public PasswordField passwordSiPF;
+    public Label wrongLogInDataLabel;
+    public Button signInBtn;
+    public Label infoSiLabel;
     public FontIcon signInIcon;
 
-    private double x,y;
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
+    public void prepareSplashView(){
         validationChecker.setNodes(SplashViewController.this);
         animationController.setNodes(SplashViewController.this);
 
-        textFlow.setStyle("-fx-background-color: WHITE");
-        textFlow.setMinSize(200,100);
-        textFlow.setVisible(false);
-        textFlow.setFocusTraversable(false);
-        layer1.getChildren().add(textFlow);
-        validationChecker.setTextFlow(textFlow);
 
+        infoValidationTF.setStyle("-fx-background-color: WHITE");
+        infoValidationTF.setMinSize(200,100);
+        infoValidationTF.setVisible(false);
+        infoValidationTF.setFocusTraversable(false);
+        logInAndSignInLayer.getChildren().add(infoValidationTF);
+        validationChecker.setTextFlow(infoValidationTF);
         animationController.disableNodesLogIn();
-
     }
 
     public void userRegister() {
-
         try {
-            User tempUser = new User(nicknameTF.getText(),
-                        (passwordPF.getText()),
-                        firstnameTF.getText(),
-                        lastnameTF.getText(),
-                        emailTF.getText());
-            
+            User tempUser = new User(nicknameSuTF.getText(),
+                        (passwordSuPF.getText()),
+                        firstnameSuTF.getText(),
+                        lastnameSuTF.getText(),
+                        emailSuTF.getText());
+
+
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpPost postRequest = new HttpPost("http://localhost:8080/users");
             StringEntity newUser = new StringEntity(new Gson().toJson(tempUser), "UTF-8");
@@ -113,7 +108,7 @@ public class SplashViewController implements Initializable {
                         
                         animationController.logInOMC();
                         Thread.sleep(1000);
-                        infoLabel.setVisible(true);
+                        infoSiLabel.setVisible(true);
                         Thread.sleep(10000);
                         
                     } catch (InterruptedException e) {
@@ -187,13 +182,13 @@ public class SplashViewController implements Initializable {
                 Thread thread = new Thread(() -> {
                     try {
                         
-                        wrongLoPLabel.setVisible(true);
+                        wrongLogInDataLabel.setVisible(true);
                         Thread.sleep(10000);
                         
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    wrongLoPLabel.setVisible(false);
+                    wrongLogInDataLabel.setVisible(false);
                 });
                 thread.start();
             }
@@ -236,7 +231,7 @@ public class SplashViewController implements Initializable {
     }
 
     public void focusOn() {
-        layer1.requestFocus();
+        logInAndSignInLayer.requestFocus();
         validationChecker.textFlow.setVisible(false);
     }
 

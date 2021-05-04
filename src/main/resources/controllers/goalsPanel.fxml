@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GoalsPanelController">
+<Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalsPanelController">
    <children>
       <Label layoutX="195.0" layoutY="81.0" text="Goals to do today" textFill="#fffafa">
          <font>

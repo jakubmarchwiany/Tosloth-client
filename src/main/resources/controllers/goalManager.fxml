@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GoalManagerController">
+<Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalManagerController">
    <children>
       <TextField fx:id="nameTF" layoutX="172.0" layoutY="121.0" prefHeight="36.0" prefWidth="371.0" />
       <TextArea fx:id="descriptionTA" layoutX="172.0" layoutY="175.0" prefHeight="133.0" prefWidth="371.0" />

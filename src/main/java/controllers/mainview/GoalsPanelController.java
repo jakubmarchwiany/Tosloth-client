@@ -1,4 +1,4 @@
-package controllers;
+package controllers.mainview;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,9 +6,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Callback;
 import model.Goal;
 import model.User;
 

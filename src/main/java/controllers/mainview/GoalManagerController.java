@@ -1,4 +1,4 @@
-package controllers;
+package controllers.mainview;
 
 import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
