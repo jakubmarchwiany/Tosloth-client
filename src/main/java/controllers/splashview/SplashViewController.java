@@ -107,61 +107,25 @@ public class SplashViewController  {
 
         User tempUser = new User(nicknameSiTF.getText(),(passwordSiPF.getText()));
 
+        User logUser = client.loginUser(tempUser);
 
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost userPostRequest = new HttpPost("http://localhost:8080/users/login");
-        userPostRequest.addHeader("content-type", "application/json; charset=UTF-8");
-        StringEntity userEntity = new StringEntity(new Gson().toJson(tempUser), "UTF-8");
-        userPostRequest.setEntity(userEntity);
+            if (logUser != null) {
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    Parent mainView = fxmlLoader.load((getClass().getResource("mainView.fxml").openStream()));
+                    Scene scene = new Scene(mainView);
+                    primaryStage.setScene(scene);
 
-        try {
-            HttpResponse userResponse = httpClient.execute(userPostRequest);
-
-            if (userResponse.getStatusLine().getStatusCode() == 200)
-            {
-                HttpEntity entity = userResponse.getEntity();
-                String userResponseString = EntityUtils.toString(entity, "UTF-8");
-                User loginUser = new Gson().fromJson(userResponseString, User.class);
-                
-                
-                HttpGet goalsGetRequest = new HttpGet("http://localhost:8080/goals/"+ loginUser.getNickname());
-                goalsGetRequest.addHeader("content-type", "application/json; charset=UTF-8");
-                
-                HttpResponse goalsResponse = httpClient.execute(goalsGetRequest);
+                    MainViewController mainViewController = fxmlLoader.getController();
+                    mainViewController.setUser(logUser);
+                    mainViewController.prepareMainGui();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else
+                animationController.showInfoLabel(wrongLogInDataLabel,10000);
 
 
-                HttpEntity goalsEntity = goalsResponse.getEntity();
-                String goalsResponseString = EntityUtils.toString(goalsEntity, "UTF-8");
-                Goal[] userGoalsArray = new Gson().fromJson(goalsResponseString,Goal[].class);
-                
-                loginUser.setGoalsArrayList(new ArrayList<>(Arrays.asList(userGoalsArray)));
-                
-                
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent mainView = fxmlLoader.load((getClass().getResource("mainView.fxml").openStream()));
-                Scene scene = new Scene(mainView);
-                primaryStage.setScene(scene);
-                
-                MainViewController mainViewController = fxmlLoader.getController();
-                mainViewController.setUser(loginUser);
-                mainViewController.prepareMainGui();
-            }else {
-                Thread thread = new Thread(() -> {
-                    try {
-                        
-                        wrongLogInDataLabel.setVisible(true);
-                        Thread.sleep(10000);
-                        
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    wrongLogInDataLabel.setVisible(false);
-                });
-                thread.start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void textFieldClicked() {
