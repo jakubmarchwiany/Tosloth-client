@@ -141,6 +141,7 @@ public class SplashViewController  {
 
         User tempUser = new User(nicknameSiTF.getText(),(passwordSiPF.getText()));
 
+
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost userPostRequest = new HttpPost("http://localhost:8080/users/login");
         userPostRequest.addHeader("content-type", "application/json; charset=UTF-8");
