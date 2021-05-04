@@ -8,7 +8,6 @@ import java.util.Comparator;
 
 public class Goal {
 
-
     private String id;
     private String owner;
 

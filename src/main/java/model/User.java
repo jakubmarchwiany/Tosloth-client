@@ -9,17 +9,21 @@ import java.util.Objects;
 
 public class User {
 
-
     private String id;
+
     private String nickname;
     private String password;
     private String firstname;
     private String lastname;
     private String email;
-
     private ArrayList<Goal> goalsArrayList = new ArrayList<>();
 
     public User() {}
+
+    public User(String text, String password) {
+        nickname = text;
+        this.password = hashPassword(password);
+    }
 
     public User(String nickname, String password, String firstname, String lastname, String email) {
         this.nickname = nickname;
@@ -29,10 +33,6 @@ public class User {
         this.email = email;
     }
 
-    public User(String text, String password) {
-        nickname = text;
-        this.password = hashPassword(password);
-    }
 
     public String getId() {
         return id;
