@@ -25,3 +25,11 @@
     -fx-font-size: 20px;
 }
 
+.list-view .list-cell:odd {
+    -fx-background-color: red;
+}
+
+.list-view .list-cell:even {
+    -fx-background-color: blue;
+}
+

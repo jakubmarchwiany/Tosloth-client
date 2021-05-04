@@ -166,6 +166,8 @@ public class SplashViewController implements Initializable {
                 goalsGetRequest.addHeader("content-type", "application/json; charset=UTF-8");
                 
                 HttpResponse goalsResponse = httpClient.execute(goalsGetRequest);
+
+
                 HttpEntity goalsEntity = goalsResponse.getEntity();
                 String goalsResponseString = EntityUtils.toString(goalsEntity, "UTF-8");
                 Goal[] userGoalsArray = new Gson().fromJson(goalsResponseString,Goal[].class);

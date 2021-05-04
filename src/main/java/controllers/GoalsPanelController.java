@@ -3,16 +3,20 @@ package controllers;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 import model.Goal;
 import model.User;
 
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -84,6 +88,24 @@ public class GoalsPanelController {
                 goalsOfTheWeekListView.setContextMenu(gaolContextMenu);
         });
 
+        lastCompletedGoalsListView.setOnMouseClicked(lv -> {
+
+            ContextMenu gaolContextMenu = new ContextMenu();
+            MenuItem go_into_goal = new MenuItem("Go into goal");
+
+            go_into_goal.setOnAction(actionEvent -> {
+                Goal selectedGaol = lastCompletedGoalsListView.getSelectionModel().getSelectedItem();
+                loadManagerGoal(selectedGaol);
+            });
+
+            gaolContextMenu.getItems().add(go_into_goal);
+
+            if(lastCompletedGoalsListView.getSelectionModel().getSelectedItem()==null)
+                lastCompletedGoalsListView.setContextMenu(null);
+            else
+                lastCompletedGoalsListView.setContextMenu(gaolContextMenu);
+        });
+
         goalsOfTheMonthListView.setOnMouseClicked(lv -> {
 
             ContextMenu gaolContextMenu = new ContextMenu();
@@ -101,7 +123,6 @@ public class GoalsPanelController {
             else
                 goalsOfTheMonthListView.setContextMenu(gaolContextMenu);
         });
-
     }
 
     private void loadManagerGoal(Goal selectedGaol){
@@ -127,30 +148,123 @@ public class GoalsPanelController {
 
 
     public void prepareListViews(){
+        Collections.sort(user.getGoalsArrayList(), new Goal.SortByDate());
+
         goalsToDoTodayListView.getItems().clear();
         goalsOfTheWeekListView.getItems().clear();
         goalsOfTheMonthListView.getItems().clear();
+        lastCompletedGoalsListView.getItems().clear();
 
         LocalDate todayDate = LocalDate.now();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String goalDateString;
+
         for (Goal goal : user.getGoalsArrayList()){
-            goalDateString = goal.getDeadlineTime();
-            LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
+            if (goal.getDone()) {
+                lastCompletedGoalsListView.getItems().add(goal);
+            }else {
+                String goalDateString;
+                goalDateString = goal.getDeadlineTime();
+                LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
 
-            long number = DAYS.between(todayDate, goalDate);
-
-            if (number == 0)
-                goalsToDoTodayListView.getItems().add(goal);
-            else if (number >= 1 && number <=7)
-                goalsOfTheWeekListView.getItems().add(goal);
-            else if (number >= 8 && number <=31)
-                goalsOfTheMonthListView.getItems().add(goal);
-
+                long number = DAYS.between(todayDate, goalDate);
+                if (number == 0)
+                    goalsToDoTodayListView.getItems().add(goal);
+                else if (number >= 1 && number <= 15)
+                    goalsOfTheWeekListView.getItems().add(goal);
+                else if (number >= 16)
+                    goalsOfTheMonthListView.getItems().add(goal);
+            }
         }
+
+
+        lastCompletedGoalsListView.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Goal item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                    if (item.getDone())
+                        setStyle("-fx-background-color: green;");
+                }
+            }
+        });
+
+        goalsToDoTodayListView.setCellFactory(param -> new ListCell<Goal>() {
+            @Override
+            protected void updateItem(Goal item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                    setStyle("-fx-background-color: " + colorPicker(item) + ";");
+                }
+            }
+        });
+
+        goalsOfTheWeekListView.setCellFactory(param -> new ListCell<Goal>() {
+            @Override
+            protected void updateItem(Goal item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                    setStyle("-fx-background-color: " + colorPicker(item) + ";");
+                }
+            }
+        });
+
+
+        goalsOfTheMonthListView.setCellFactory(param -> new ListCell<Goal>() {
+            @Override
+            protected void updateItem(Goal item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle(null);
+                } else {
+                    setText(item.getName());
+                    setStyle("-fx-background-color: " + colorPicker(item) + ";");
+                }
+            }
+        });
     }
+    public String colorPicker(Goal goal){
+
+        LocalDate todayDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String goalDateString;
+        goalDateString = goal.getDeadlineTime();
+        LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
+
+        long numberBetween = DAYS.between(todayDate, goalDate);
+
+
+        Color color;
+        int number=(int)numberBetween;
+        if (number > 28)
+            color = new Color(0, 255,0);
+        else
+            color = new Color(225 - number * 8, 25 + number * 8,0);
+
+
+        String hex = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+
+        return hex;
+    }
+
 
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;

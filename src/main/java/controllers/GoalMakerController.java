@@ -80,6 +80,9 @@ public class GoalMakerController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        goalsPanelController.prepareListViews();
+        backOMC();
     }
 
 

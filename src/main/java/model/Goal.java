@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Goal {
 
@@ -122,6 +123,14 @@ public class Goal {
 
     public void setSubGoalsArrayList(ArrayList<Goal> subGoalsArrayList) {
         this.subGoalsArrayList = subGoalsArrayList;
+    }
+
+
+    public static class SortByDate implements Comparator<Goal> {
+        @Override
+        public int compare(Goal a, Goal b) {
+            return a.deadlineTime.compareTo(b.deadlineTime);
+        }
     }
 
     @Override
