@@ -1,6 +1,7 @@
 package controllers.splashview;
 
 import com.google.gson.Gson;
+import controllers.Client;
 import controllers.mainview.MainViewController;
 import javafx.fxml.FXMLLoader;
 
@@ -36,6 +37,7 @@ public class SplashViewController  {
 
     //Variables
     private Stage primaryStage;
+    private Client client = new Client();
     
     //Components JavaFx
     public AnchorPane logInAndSignInLayer;
@@ -85,56 +87,20 @@ public class SplashViewController  {
     }
 
     public void userRegister() {
-        try {
-            User tempUser = new User(nicknameSuTF.getText(),
-                        (passwordSuPF.getText()),
-                        firstnameSuTF.getText(),
-                        lastnameSuTF.getText(),
-                        emailSuTF.getText());
 
+        User tempUser = new User(nicknameSuTF.getText(),
+                    passwordSuPF.getText(),
+                    firstnameSuTF.getText(),
+                    lastnameSuTF.getText(),
+                    emailSuTF.getText());
 
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpPost postRequest = new HttpPost("http://localhost:8080/users");
-            StringEntity newUser = new StringEntity(new Gson().toJson(tempUser), "UTF-8");
-            postRequest.addHeader("content-type", "application/json; charset=UTF-8");
-            postRequest.setEntity(newUser);
+        int responseStatusCode = client.registerUserInDataBase(tempUser);
 
-            HttpResponse response = httpClient.execute(postRequest);
-            
-            System.out.println(response.getStatusLine().getStatusCode());
-            if (response.getStatusLine().getStatusCode() == 200){
-                Thread thread = new Thread(() -> {
-                    try {
-                        
-                        animationController.logInOMC();
-                        Thread.sleep(1000);
-                        infoSiLabel.setVisible(true);
-                        Thread.sleep(10000);
-                        
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    userExistInDataBaseLabel.setVisible(false);
-                });
-                thread.start();
-            } else if(response.getStatusLine().getStatusCode() == 500){
-                Thread thread = new Thread(() -> {
-                    try {
-                        
-                        userExistInDataBaseLabel.setVisible(true);
-                        Thread.sleep(10000);
-                        
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    userExistInDataBaseLabel.setVisible(false);
-                });
-                thread.start();
-            }
+        if (responseStatusCode == 200)
+            animationController.showInfoLabel(infoSiLabel,10000);
+        else if(responseStatusCode == 500)
+            animationController.showInfoLabel(userExistInDataBaseLabel,5000);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void userLogin() {
@@ -207,7 +173,7 @@ public class SplashViewController  {
     }
 
     public void logInOMC(MouseEvent mouseEvent) {
-        animationController.logInOMC();
+        animationController.changeViewToSignIn();
     }
 
     public void dragged(MouseEvent mouseEvent) {

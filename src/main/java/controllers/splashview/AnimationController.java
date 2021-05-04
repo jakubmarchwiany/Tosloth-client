@@ -1,12 +1,33 @@
 package controllers.splashview;
 
-import controllers.splashview.SplashViewController;
 import javafx.animation.TranslateTransition;
+import javafx.scene.Node;
 import javafx.util.Duration;
 
 public class AnimationController {
 
+    private final int speedOfAnimation = 1000;
+
     private SplashViewController nodes;
+
+
+    public void showInfoLabel(Node node,int duration){
+        Thread thread = new Thread(() -> {
+            try {
+
+                changeViewToSignIn();
+
+                Thread.sleep(speedOfAnimation);
+                node.setVisible(true);
+                Thread.sleep(duration);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            node.setVisible(false);
+        });
+        thread.start();
+    }
 
 
     public void signUpOMC() {
@@ -69,7 +90,7 @@ public class AnimationController {
 
     }
 
-    public void logInOMC() {
+    public void changeViewToSignIn() {
         nodes.validationChecker.resetTextFields();
         Thread thread = new Thread(() -> {
             try {
