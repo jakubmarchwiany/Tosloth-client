@@ -32,7 +32,6 @@ public class MainViewController {
             GoalsPanelController goalsPanelController = fxmlLoader.getController();
 
             goalsPanelController.setMainViewController(MainViewController.this);
-            System.out.println(user.toString());
             goalsPanelController.setUser(user);
             goalsPanelController.prepareListViews();
 

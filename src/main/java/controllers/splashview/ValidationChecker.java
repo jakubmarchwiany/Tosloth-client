@@ -25,6 +25,17 @@ public class ValidationChecker {
     }
 
 
+    public void prepareValidator(){
+        this.textFlow = nodes.infoValidationTF;
+
+        nodes.infoValidationTF.setStyle("-fx-background-color: WHITE");
+        nodes.infoValidationTF.setMinSize(200,100);
+        nodes.infoValidationTF.setVisible(false);
+        nodes.infoValidationTF.setFocusTraversable(false);
+        nodes.logInAndSignInLayer.getChildren().add(textFlow);
+
+
+    }
 
     public final int[] tab = new int[] {0,0,0,0,0,0};
 

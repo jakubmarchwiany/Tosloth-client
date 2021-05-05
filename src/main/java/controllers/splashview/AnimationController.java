@@ -15,6 +15,22 @@ public class AnimationController {
         Thread thread = new Thread(() -> {
             try {
 
+                Thread.sleep(speedOfAnimation);
+                node.setVisible(true);
+                Thread.sleep(duration);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            node.setVisible(false);
+        });
+        thread.start();
+    }
+
+    public void showInfoLabelWithMove(Node node,int duration){
+        Thread thread = new Thread(() -> {
+            try {
+
                 changeViewToSignIn();
 
                 Thread.sleep(speedOfAnimation);
@@ -28,6 +44,8 @@ public class AnimationController {
         });
         thread.start();
     }
+
+
 
 
     public void signUpOMC() {

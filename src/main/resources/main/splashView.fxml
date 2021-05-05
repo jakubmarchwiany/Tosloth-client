@@ -18,7 +18,7 @@
          <children>
             <AnchorPane fx:id="logInAndSignInLayer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#focusOn" prefHeight="720.0" prefWidth="0.0" style="-fx-background-color: #010a13;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="394.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label fx:id="userExistInDataBaseLabel" layoutX="977.0" layoutY="260.0" text="userExistInDataBase" textFill="RED" visible="false" />
+                  <Label fx:id="userExistInDataBaseLabel" layoutX="977.0" layoutY="260.0" text="User Exist In DataBase" textFill="RED" visible="false" />
                   <Label fx:id="signInLabel" layoutX="339.0" layoutY="60.0" text="Sign in" textFill="WHITE">
                      <font>
                         <Font name="Agency FB" size="96.0" />

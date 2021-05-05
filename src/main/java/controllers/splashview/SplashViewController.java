@@ -1,10 +1,8 @@
 package controllers.splashview;
 
-import com.google.gson.Gson;
 import controllers.Client;
 import controllers.mainview.MainViewController;
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,26 +16,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import model.Goal;
 import model.User;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SplashViewController  {
 
     //Variables
     private Stage primaryStage;
-    private Client client = new Client();
+    private final Client client = new Client();
     
     //Components JavaFx
     public AnchorPane logInAndSignInLayer;
@@ -71,18 +59,10 @@ public class SplashViewController  {
     public Label infoSiLabel;
     public FontIcon signInIcon;
 
-
     public void prepareSplashView(){
         validationChecker.setNodes(SplashViewController.this);
         animationController.setNodes(SplashViewController.this);
-
-
-        infoValidationTF.setStyle("-fx-background-color: WHITE");
-        infoValidationTF.setMinSize(200,100);
-        infoValidationTF.setVisible(false);
-        infoValidationTF.setFocusTraversable(false);
-        logInAndSignInLayer.getChildren().add(infoValidationTF);
-        validationChecker.setTextFlow(infoValidationTF);
+        validationChecker.prepareValidator();
         animationController.disableNodesLogIn();
     }
 
@@ -97,7 +77,7 @@ public class SplashViewController  {
         int responseStatusCode = client.registerUserInDataBase(tempUser);
 
         if (responseStatusCode == 200)
-            animationController.showInfoLabel(infoSiLabel,10000);
+            animationController.showInfoLabelWithMove(infoSiLabel,10000);
         else if(responseStatusCode == 500)
             animationController.showInfoLabel(userExistInDataBaseLabel,5000);
 
@@ -124,19 +104,22 @@ public class SplashViewController  {
                 }
             }else
                 animationController.showInfoLabel(wrongLogInDataLabel,10000);
+    }
 
-
+    public void checkIfEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER)
+            userLogin();
     }
 
     public void textFieldClicked() {
         validationChecker.textFieldClicked();
     }
 
-    public void signUpOMC(MouseEvent mouseEvent) {
+    public void signUpOMC() {
         animationController.signUpOMC();
     }
 
-    public void logInOMC(MouseEvent mouseEvent) {
+    public void logInOMC() {
         animationController.changeViewToSignIn();
     }
 
@@ -164,11 +147,6 @@ public class SplashViewController  {
     public void focusOn() {
         logInAndSignInLayer.requestFocus();
         validationChecker.textFlow.setVisible(false);
-    }
-
-    public void checkIfEnter(KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER)
-            userLogin();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
