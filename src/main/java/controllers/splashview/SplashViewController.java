@@ -111,15 +111,15 @@ public class SplashViewController  {
             userLogin();
     }
 
-    public void textFieldClicked() {
-        validationChecker.textFieldClicked();
+    public void textFieldCheck() {
+        validationChecker.textFieldCheckValidation();
     }
 
-    public void signUpOMC() {
-        animationController.signUpOMC();
+    public void changeViewToSignUp() {
+        animationController.changeViewToSignUp();
     }
 
-    public void logInOMC() {
+    public void changeViewToSignIn() {
         animationController.changeViewToSignIn();
     }
 
@@ -146,7 +146,7 @@ public class SplashViewController  {
 
     public void focusOn() {
         logInAndSignInLayer.requestFocus();
-        validationChecker.textFlow.setVisible(false);
+        validationChecker.infoValidationTF.setVisible(false);
     }
 
     public void setPrimaryStage(Stage primaryStage) {

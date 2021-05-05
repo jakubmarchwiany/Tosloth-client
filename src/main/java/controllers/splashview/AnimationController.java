@@ -46,10 +46,8 @@ public class AnimationController {
     }
 
 
-
-
-    public void signUpOMC() {
-        nodes.textFieldClicked();
+    public void changeViewToSignUp() {
+        nodes.textFieldCheck();
         Thread thread = new Thread(() -> {
             try {
                 TranslateTransition slide = new TranslateTransition();
@@ -77,12 +75,9 @@ public class AnimationController {
                 slide3.setToX(0);
                 slide3.play();
 
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         });
         thread.start();
     }
