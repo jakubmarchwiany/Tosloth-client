@@ -10,7 +10,6 @@ public class AnimationController {
 
     private SplashViewController nodes;
 
-
     public void showInfoLabel(Node node,int duration){
         Thread thread = new Thread(() -> {
             try {
@@ -49,18 +48,8 @@ public class AnimationController {
     public void changeView(int positionScene, int positionScene2) {
         Thread thread = new Thread(() -> {
             try {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(1));
-                slide.setNode(nodes.changeViewLayer);
-                slide.setToX(positionScene);
-                slide.play();
-
-                TranslateTransition slide2 = new TranslateTransition();
-                slide2.setDuration(Duration.seconds(1));
-                slide2.setNode(nodes.logInAndSignInLayer);
-
-                slide2.setToX(positionScene2);
-                slide2.play();
+                slideAnimation(nodes.changeViewLayer,positionScene);
+                slideAnimation(nodes.logInAndSignInLayer,positionScene2);
 
                 Thread.sleep(speedOfAnimation);
 
@@ -69,11 +58,7 @@ public class AnimationController {
                 else
                     disableNodesSignUp();
 
-                TranslateTransition slide3 = new TranslateTransition();
-                slide3.setDuration(Duration.seconds(1));
-                slide3.setNode(nodes.logInAndSignInLayer);
-                slide3.setToX(0);
-                slide3.play();
+                slideAnimation(nodes.logInAndSignInLayer,0);
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -82,10 +67,12 @@ public class AnimationController {
         thread.start();
     }
 
-    public void slideAnimation(Node node){
-
-
-
+    public void slideAnimation(Node layer,int position){
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(1));
+        slide.setNode(layer);
+        slide.setToX(position);
+        slide.play();
     }
 
     public void disableNodesSignUp(){
