@@ -31,7 +31,8 @@ public class AnimationController {
         Thread thread = new Thread(() -> {
             try {
 
-                changeViewToSignIn();
+                changeView(0,880);
+
 
                 Thread.sleep(speedOfAnimation);
                 node.setVisible(true);
@@ -45,29 +46,28 @@ public class AnimationController {
         thread.start();
     }
 
-
-    public void changeViewToSignUp() {
-        nodes.textFieldCheck();
+    public void changeView(int positionScene, int positionScene2) {
         Thread thread = new Thread(() -> {
             try {
                 TranslateTransition slide = new TranslateTransition();
                 slide.setDuration(Duration.seconds(1));
                 slide.setNode(nodes.changeViewLayer);
-                slide.setToX(-880);
+                slide.setToX(positionScene);
                 slide.play();
 
                 TranslateTransition slide2 = new TranslateTransition();
                 slide2.setDuration(Duration.seconds(1));
                 slide2.setNode(nodes.logInAndSignInLayer);
-                slide2.setToX(-880);
+
+                slide2.setToX(positionScene2);
                 slide2.play();
 
+                Thread.sleep(speedOfAnimation);
 
-                Thread.sleep(1000);
-
-
-                disableNodesSignUp();
-
+                if (positionScene == 0)
+                    disableNodesSignIn();
+                else
+                    disableNodesSignUp();
 
                 TranslateTransition slide3 = new TranslateTransition();
                 slide3.setDuration(Duration.seconds(1));
@@ -80,6 +80,12 @@ public class AnimationController {
             }
         });
         thread.start();
+    }
+
+    public void slideAnimation(Node node){
+
+
+
     }
 
     public void disableNodesSignUp(){
@@ -103,45 +109,7 @@ public class AnimationController {
 
     }
 
-    public void changeViewToSignIn() {
-        nodes.validationChecker.resetTextFields();
-        Thread thread = new Thread(() -> {
-            try {
-                TranslateTransition slide = new TranslateTransition();
-                slide.setDuration(Duration.seconds(1));
-                slide.setNode(nodes.changeViewLayer);
-
-                slide.setToX(0);
-                slide.play();
-
-                TranslateTransition slide2 = new TranslateTransition();
-                slide2.setDuration(Duration.seconds(1));
-                slide2.setNode(nodes.logInAndSignInLayer);
-
-                slide2.setToX(880);
-                slide2.play();
-
-                Thread.sleep(1000);
-
-                disableNodesLogIn();
-
-                TranslateTransition slide3 = new TranslateTransition();
-                slide3.setDuration(Duration.seconds(1));
-                slide3.setNode(nodes.logInAndSignInLayer);
-
-                slide3.setToX(0);
-                slide3.play();
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-        });
-        thread.start();
-    }
-
-    public void disableNodesLogIn(){
+    public void disableNodesSignIn(){
         nodes.signInBtn.setVisible(false);
         nodes.nicknameSuTF.setVisible(false);
         nodes.firstnameSuTF.setVisible(false);
@@ -159,9 +127,7 @@ public class AnimationController {
         nodes.signInIcon.setVisible(true);
         nodes.signUpBtn.setVisible(true);
     }
-
-
-
+    
     public void setNodes(SplashViewController nodes) {
         this.nodes = nodes;
     }

@@ -63,7 +63,7 @@ public class SplashViewController  {
         validationChecker.setNodes(SplashViewController.this);
         animationController.setNodes(SplashViewController.this);
         validationChecker.prepareValidator();
-        animationController.disableNodesLogIn();
+        animationController.disableNodesSignIn();
     }
 
     public void userRegister() {
@@ -116,11 +116,11 @@ public class SplashViewController  {
     }
 
     public void changeViewToSignUp() {
-        animationController.changeViewToSignUp();
+        animationController.changeView(-880,-880);
     }
 
     public void changeViewToSignIn() {
-        animationController.changeViewToSignIn();
+        animationController.changeView(0,880);
     }
 
     public void dragged(MouseEvent mouseEvent) {

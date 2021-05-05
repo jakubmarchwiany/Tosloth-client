@@ -205,6 +205,8 @@ public class ValidationChecker {
 
     public void resetTextFields(){
         infoValidationTF.setVisible(false);
+        nodes.signUpIcon.setIconColor(Color.RED);
+        nodes.signUpIcon.setDisable(true);
         nodes.nicknameSuTF.clear();
         nodes.firstnameSuTF.clear();
         nodes.emailSuTF.clear();
