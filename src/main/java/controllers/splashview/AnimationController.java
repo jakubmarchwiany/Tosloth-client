@@ -32,7 +32,6 @@ public class AnimationController {
 
                 changeView(0,880);
 
-
                 Thread.sleep(speedOfAnimation);
                 node.setVisible(true);
                 Thread.sleep(duration);
@@ -53,10 +52,12 @@ public class AnimationController {
 
                 Thread.sleep(speedOfAnimation);
 
-                if (positionScene == 0)
-                    disableNodesSignIn();
-                else
+                if (positionScene == 0) {
                     disableNodesSignUp();
+                    nodes.validationChecker.resetTextFields();
+                }else
+                    disableNodesSignIn();
+
 
                 slideAnimation(nodes.logInAndSignInLayer,0);
 
@@ -75,7 +76,7 @@ public class AnimationController {
         slide.play();
     }
 
-    public void disableNodesSignUp(){
+    public void disableNodesSignIn(){
 
         nodes.signInBtn.setVisible(true);
         nodes.signInLabel.setVisible(false);
@@ -96,7 +97,7 @@ public class AnimationController {
 
     }
 
-    public void disableNodesSignIn(){
+    public void disableNodesSignUp(){
         nodes.signInBtn.setVisible(false);
         nodes.nicknameSuTF.setVisible(false);
         nodes.firstnameSuTF.setVisible(false);

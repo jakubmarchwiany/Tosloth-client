@@ -63,7 +63,7 @@ public class SplashViewController  {
         validationChecker.setNodes(SplashViewController.this);
         animationController.setNodes(SplashViewController.this);
         validationChecker.prepareValidator();
-        animationController.disableNodesSignIn();
+        animationController.disableNodesSignUp();
     }
 
     public void userRegister() {
