@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Client {
+
     CloseableHttpClient httpClient = HttpClients.createDefault();
 
     public int registerUserInDataBase(User userToRegister){
@@ -75,7 +76,19 @@ public class Client {
         }
     }
 
+    public void addGoal(Goal tempGoal){
+        try {
+            HttpPost postRequest = new HttpPost("http://localhost:8080/goals");
+            StringEntity newGoal = new StringEntity(new Gson().toJson(tempGoal), "UTF-8");
+            postRequest.addHeader("content-type", "application/json; charset=UTF-8");
+            postRequest.setEntity(newGoal);
 
+            httpClient.execute(postRequest);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

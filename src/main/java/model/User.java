@@ -33,7 +33,6 @@ public class User {
         this.email = email;
     }
 
-
     public String getId() {
         return id;
     }

@@ -96,7 +96,7 @@ public class GoalManagerController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             goalMakerPanel = fxmlLoader.load((getClass().getResource("subGoalMaker.fxml").openStream()));
-            mainViewController.getActionPanel().getChildren().add(goalMakerPanel);
+            mainViewController.getActivePanel().getChildren().add(goalMakerPanel);
 
             SubGoalMakerController subGoalMakerController = fxmlLoader.getController();
 
@@ -131,7 +131,7 @@ public class GoalManagerController {
         goal.setDeadlineTime(deadLineDP.getValue());
 
 
-        goalsPanelController.prepareListViews();
+        goalsPanelController.updateListsView();
 
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -162,7 +162,7 @@ public class GoalManagerController {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     Parent subGoalManager = fxmlLoader.load((getClass().getResource("subGoalManager.fxml").openStream()));
-                    mainViewController.getActionPanel().getChildren().add(subGoalManager);
+                    mainViewController.getActivePanel().getChildren().add(subGoalManager);
 
                     SubGoalManagerController subGoalManagerController = fxmlLoader.getController();
 
@@ -193,8 +193,8 @@ public class GoalManagerController {
 
 
     public void backOMC() {
-        mainViewController.getActionPanel().getChildren().clear();
-        mainViewController.getActionPanel().getChildren().add(mainViewController.goalsPanel);
+        mainViewController.getActivePanel().getChildren().clear();
+        mainViewController.getActivePanel().getChildren().add(mainViewController.goalsPanel);
     }
 
     public void setGoal(Goal goal) {
@@ -227,7 +227,7 @@ public class GoalManagerController {
             user.getGoalsArrayList().remove(goal);
             backOMC();
 
-            goalsPanelController.prepareListViews();
+            goalsPanelController.updateListsView();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -247,7 +247,7 @@ public class GoalManagerController {
 
         if (done){
             goal.setDone(true);
-            goalsPanelController.prepareListViews();
+            goalsPanelController.updateListsView();
 
 
             CloseableHttpClient httpClient = HttpClients.createDefault();

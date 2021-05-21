@@ -1,33 +1,26 @@
 package controllers.mainview;
 
-import com.google.gson.Gson;
+import controllers.Client;
 import javafx.scene.control.*;
 import model.Goal;
 import model.Interval;
 import model.User;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public class GoalMakerController {
 
-    public User user;
+    public User loginUser;
+
+    public Client client;
+
+    private MainViewController mainViewC;
+    private GoalsPanelController goalsPanelC;
+
 
     public TextField nameTextField;
     public TextArea descriptionTextArea;
     public DatePicker dataPicker;
     public ToggleGroup periodicityGroup;
-
-    private MainViewController mainViewController;
-    private GoalsPanelController goalsPanelController;
 
     public RadioButton noneRadioButton;
     public RadioButton dayRadioButton;
@@ -35,13 +28,9 @@ public class GoalMakerController {
     public RadioButton twoWeeksRadioButton;
     public RadioButton monthRadioButton;
 
-    public void backOMC() {
-        mainViewController.getActionPanel().getChildren().clear();
-        mainViewController.getActionPanel().getChildren().add(mainViewController.goalsPanel);
-    }
-
-    public void setMainViewController(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public void back() {
+        mainViewC.getActivePanel().getChildren().clear();
+        mainViewC.getActivePanel().getChildren().add(mainViewC.goalsPanel);
     }
 
     public void makeGoal() {
@@ -56,57 +45,28 @@ public class GoalMakerController {
         else if (monthRadioButton.isSelected())
             interval = Interval.EVERYMONTH;
 
-        Goal tempGoal = new Goal(user.getNickname(), nameTextField.getText(),descriptionTextArea.getText(), interval, false, dataPicker.getValue());
+        Goal tempGoal = new Goal(loginUser.getNickname(), nameTextField.getText(),descriptionTextArea.getText(), interval, false, dataPicker.getValue());
 
-        user.getGoalsArrayList().add(tempGoal);
+        loginUser.getGoalsArrayList().add(tempGoal);
 
-        addGoalToListview(tempGoal);
-
-
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost postRequest = new HttpPost("http://localhost:8080/goals");
-        StringEntity newGoal = new StringEntity(new Gson().toJson(tempGoal), "UTF-8");
-
-
-        postRequest.addHeader("content-type", "application/json; charset=UTF-8");
-        postRequest.setEntity(newGoal);
-
-        try {
-            HttpResponse response = httpClient.execute(postRequest);
-            System.out.println(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        goalsPanelController.prepareListViews();
-        backOMC();
+        client.addGoal(tempGoal);
+        goalsPanelC.updateListsView();
+        back();
     }
 
-
-    public void addGoalToListview(Goal goal){
-
-        String goalDateString = goal.getDeadlineTime();
-        System.out.println(goalDateString);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate goalDate = LocalDate.parse(goalDateString, formatter);
-
-        LocalDate todayDate = LocalDate.now();
-
-        long number = DAYS.between(todayDate, goalDate);
-
-        if (number == 0)
-            goalsPanelController.goalsToDoTodayListView.getItems().add(goal);
-        else if (number >= 1 && number <=7)
-            goalsPanelController.goalsOfTheWeekListView.getItems().add(goal);
-        else if (number >= 8 && number <=31)
-            goalsPanelController.goalsOfTheMonthListView.getItems().add(goal);
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setMainViewC(MainViewController mainViewC) {
+        this.mainViewC = mainViewC;
     }
 
-    public void setGoalsPanelController(GoalsPanelController goalsPanelController) {
-        this.goalsPanelController = goalsPanelController;
+    public void setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    public void setGoalsPanelC(GoalsPanelController goalsPanelC) {
+        this.goalsPanelC = goalsPanelC;
     }
 }

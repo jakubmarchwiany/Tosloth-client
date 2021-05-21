@@ -90,8 +90,8 @@ public class SubGoalManagerController {
     }
 
     public void backOMC() {
-        mainViewController.getActionPanel().getChildren().clear();
-        mainViewController.getActionPanel().getChildren().add(goalManager);
+        mainViewController.getActivePanel().getChildren().clear();
+        mainViewController.getActivePanel().getChildren().add(goalManager);
     }
 
     public void setSubGoal(Goal subGoal) {

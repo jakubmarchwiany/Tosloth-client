@@ -34,8 +34,8 @@ public class SubGoalMakerController {
     public RadioButton monthRadioButton;
 
     public void backOMC() {
-        mainViewController.getActionPanel().getChildren().clear();
-        mainViewController.getActionPanel().getChildren().add(goalManagerController.goalManager);
+        mainViewController.getActivePanel().getChildren().clear();
+        mainViewController.getActivePanel().getChildren().add(goalManagerController.goalManager);
     }
 
     public void makeGoal() {

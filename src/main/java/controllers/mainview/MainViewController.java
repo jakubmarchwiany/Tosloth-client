@@ -1,5 +1,6 @@
 package controllers.mainview;
 
+import controllers.Client;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,35 +17,47 @@ public class MainViewController {
     private double x,y;
 
     @FXML
-    private AnchorPane actionPanel = new AnchorPane();
+    private AnchorPane activePanel = new AnchorPane();
 
     public Pane goalsPanel;
 
-    public User user;
+    public User loginUser;
+
+    public Client client;
 
 
     public void prepareMainGui(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             goalsPanel = fxmlLoader.load((getClass().getResource("goalsPanel.fxml").openStream()));
-            actionPanel.getChildren().add(goalsPanel);
+            activePanel.getChildren().add(goalsPanel);
 
-            GoalsPanelController goalsPanelController = fxmlLoader.getController();
-
-            goalsPanelController.setMainViewController(MainViewController.this);
-            goalsPanelController.setUser(user);
-            goalsPanelController.prepareListViews();
+            GoalsPanelController goalsPanelC = fxmlLoader.getController();
+            goalsPanelC.prepareGoalsPanel();
+            goalsPanelC.setMainViewC(MainViewController.this);
+            goalsPanelC.setLoginUser(loginUser);
+            goalsPanelC.setClient(client);
+            goalsPanelC.updateListsView();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
+    public User getLoginUser() {
+        return loginUser;
+    }
 
-    public AnchorPane getActionPanel() {
-        return actionPanel;
+    public AnchorPane getActivePanel() {
+        return activePanel;
+    }
+
+    public void setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public void dragged(MouseEvent mouseEvent) {
@@ -66,9 +79,5 @@ public class MainViewController {
     public void close(MouseEvent mouseEvent) {
         Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

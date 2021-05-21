@@ -96,9 +96,10 @@ public class SplashViewController  {
                     Scene scene = new Scene(mainView);
                     primaryStage.setScene(scene);
 
-                    MainViewController mainViewController = fxmlLoader.getController();
-                    mainViewController.setUser(logUser);
-                    mainViewController.prepareMainGui();
+                    MainViewController mainViewC = fxmlLoader.getController();
+                    mainViewC.setLoginUser(logUser);
+                    mainViewC.setClient(client);
+                    mainViewC.prepareMainGui();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -123,6 +124,15 @@ public class SplashViewController  {
         animationController.changeView(0,880);
     }
 
+    public void focusOn() {
+        logInAndSignInLayer.requestFocus();
+        validationChecker.infoValidationTF.setVisible(false);
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     public void dragged(MouseEvent mouseEvent) {
         Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.setX(mouseEvent.getScreenX() - x);
@@ -142,14 +152,5 @@ public class SplashViewController  {
     public void close(MouseEvent mouseEvent) {
         Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         stage.close();
-    }
-
-    public void focusOn() {
-        logInAndSignInLayer.requestFocus();
-        validationChecker.infoValidationTF.setVisible(false);
-    }
-
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
     }
 }

@@ -34,6 +34,6 @@
       <RadioButton fx:id="twoWeeksRadioButton" layoutX="674.0" layoutY="514.0" mnemonicParsing="false" text="every two weeks" textFill="WHITE" toggleGroup="$periodicityGroup" />
       <RadioButton fx:id="monthRadioButton" layoutX="816.0" layoutY="514.0" mnemonicParsing="false" text="every month" textFill="WHITE" toggleGroup="$periodicityGroup" />
       <Button layoutX="436.0" layoutY="568.0" mnemonicParsing="false" onMouseClicked="#makeGoal" prefHeight="43.0" prefWidth="409.0" styleClass="buttonMakeGoal" text="Make" />
-      <Button layoutX="1134.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#backOMC" prefHeight="64.0" prefWidth="94.0" styleClass="buttonBackGoal" text="Back" />
+      <Button layoutX="1134.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="64.0" prefWidth="94.0" styleClass="buttonBackGoal" text="Back" />
    </children>
 </AnchorPane>
