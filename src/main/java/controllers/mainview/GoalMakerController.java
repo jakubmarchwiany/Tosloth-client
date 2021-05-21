@@ -10,13 +10,17 @@ import model.User;
 public class GoalMakerController {
 
     public User loginUser;
-
+    public Goal currentGoal;
     public Client client;
+
+    public boolean isGoal;
 
     private MainViewController mainViewC;
     private GoalsPanelController goalsPanelC;
+    private GoalManagerController goalManagerC;
 
-
+    public Label goalCreatorLabel;
+    public Button makeBtn;
     public TextField nameTextField;
     public TextArea descriptionTextArea;
     public DatePicker dataPicker;
@@ -28,9 +32,11 @@ public class GoalMakerController {
     public RadioButton twoWeeksRadioButton;
     public RadioButton monthRadioButton;
 
-    public void back() {
-        mainViewC.getActivePanel().getChildren().clear();
-        mainViewC.getActivePanel().getChildren().add(mainViewC.goalsPanel);
+    public void prepareGoalMaker(){
+        if (isGoal)
+            goalCreatorLabel.setText("Goal Creator");
+        else
+            goalCreatorLabel.setText("Sub-Goal Creator");
     }
 
     public void makeGoal() {
@@ -47,11 +53,36 @@ public class GoalMakerController {
 
         Goal tempGoal = new Goal(loginUser.getNickname(), nameTextField.getText(),descriptionTextArea.getText(), interval, false, dataPicker.getValue());
 
-        loginUser.getGoalsArrayList().add(tempGoal);
-
-        client.addGoal(tempGoal);
-        goalsPanelC.updateListsView();
+        if (isGoal){
+            loginUser.getGoalsArrayList().add(tempGoal);
+            client.addGoal(tempGoal);
+            goalsPanelC.updateListsView();
+        }else{
+            currentGoal.getSubGoalsArrayList().add(tempGoal);
+            client.updateGoal(currentGoal);
+            goalManagerC.updateSubGoalsLV();
+        }
         back();
+    }
+
+    public void back() {
+        if(isGoal){
+            mainViewC.getActivePanel().getChildren().clear();
+            mainViewC.getActivePanel().getChildren().add(mainViewC.goalsPanel);
+        }else{
+            mainViewC.getActivePanel().getChildren().clear();
+            mainViewC.getActivePanel().getChildren().add(goalManagerC.goalManager);
+        }
+    }
+
+    public void checkValidation(){
+        if(nameTextField.getText().length() >= 3 && dataPicker.getValue() != null) {
+            makeBtn.setStyle("-fx-background-color: #00ff00");
+            makeBtn.setDisable(false);
+        }else {
+            makeBtn.setStyle("-fx-background-color: #ff0000");
+            makeBtn.setDisable(true);
+        }
     }
 
     public void setClient(Client client) {
@@ -68,5 +99,17 @@ public class GoalMakerController {
 
     public void setGoalsPanelC(GoalsPanelController goalsPanelC) {
         this.goalsPanelC = goalsPanelC;
+    }
+
+    public void setGoal(boolean goal) {
+        isGoal = goal;
+    }
+
+    public void setCurrentGoal(Goal currentGoal) {
+        this.currentGoal = currentGoal;
+    }
+
+    public void setGoalManagerC(GoalManagerController goalManagerC) {
+        this.goalManagerC = goalManagerC;
     }
 }

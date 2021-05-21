@@ -46,11 +46,14 @@ public class GoalsPanelController {
             mainViewC.getActivePanel().getChildren().add(goalMakerPanel);
 
             GoalMakerController goalMakerC = fxmlLoader.getController();
-
+            goalMakerC.setGoal(true);
             goalMakerC.setGoalsPanelC(GoalsPanelController.this);
+
             goalMakerC.setMainViewC(mainViewC);
             goalMakerC.setLoginUser(loginUser);
             goalMakerC.setClient(client);
+            goalMakerC.prepareGoalMaker();
+            goalMakerC.checkValidation();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,10 +68,12 @@ public class GoalsPanelController {
 
             GoalManagerController goalManagerC = fxmlLoader.getController();
 
-            goalManagerC.setGoalsPanelController(GoalsPanelController.this);
-            goalManagerC.setMainViewController(mainViewC);
-            goalManagerC.setGoal(selectedGaol);
-            goalManagerC.setUser(loginUser);
+            goalManagerC.setGoalsPanelC(GoalsPanelController.this);
+            goalManagerC.setIsGoal(true);
+            goalManagerC.setClient(client);
+            goalManagerC.setMainViewC(mainViewC);
+            goalManagerC.setCurrentGoal(selectedGaol);
+            goalManagerC.setLoginUser(loginUser);
             goalManagerC.setGoalManager(goalManager);
             goalManagerC.prepareGoalManagerGui();
 
@@ -118,7 +123,7 @@ public class GoalsPanelController {
         long numberBetween = DAYS.between(todayDate, goalDate);
 
         Color color;
-        int number=(int)numberBetween;
+        int number = (int)numberBetween;
         if (number > 28 || goal.getDone())
             color = new Color(0, 255,0);
         else

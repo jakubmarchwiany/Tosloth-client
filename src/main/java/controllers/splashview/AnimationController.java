@@ -10,11 +10,13 @@ public class AnimationController {
 
     private SplashViewController nodes;
 
+
+
     public void showInfoLabel(Node node,int duration){
         Thread thread = new Thread(() -> {
             try {
 
-                Thread.sleep(speedOfAnimation);
+
                 node.setVisible(true);
                 Thread.sleep(duration);
 

@@ -90,5 +90,32 @@ public class Client {
         }
     }
 
+    public void updateGoal(Goal tempGoal){
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpPost postRequest = new HttpPost("http://localhost:8080/goals/update");
+            StringEntity newSubGoal = new StringEntity(new Gson().toJson(tempGoal), "UTF-8");
+
+            postRequest.addHeader("content-type", "application/json; charset=UTF-8");
+            postRequest.setEntity(newSubGoal);
+
+            httpClient.execute(postRequest);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void removeGoal(Goal goalToRemove){
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet goalsGetRequest = new HttpGet("http://localhost:8080/goals/remove/" + goalToRemove.getId());
+            goalsGetRequest.addHeader("content-type", "application/json; charset=UTF-8");
+            httpClient.execute(goalsGetRequest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -33,7 +33,7 @@
             <Font name="Agency FB" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="190.0" layoutY="14.0" text="Goal Manager" textFill="WHITE">
+      <Label fx:id="mainLabel" layoutX="190.0" layoutY="14.0" text="Goal Manager" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="76.0" />
          </font>
@@ -65,13 +65,13 @@
       <Button fx:id="updateButton" layoutX="227.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#updateGoal" prefHeight="61.0" prefWidth="221.0" text="Update" />
       <Button fx:id="doneButton" layoutX="590.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#goalDone" prefHeight="61.0" prefWidth="171.0" text="Done" />
       <ListView fx:id="subGoalsListView" layoutX="782.0" layoutY="121.0" onMouseClicked="#listViewOMC" prefHeight="311.0" prefWidth="452.0" />
-      <Label layoutX="934.0" layoutY="43.0" text="Sub-goals" textFill="WHITE">
+      <Label fx:id="subGoalsLabel" layoutX="934.0" layoutY="43.0" text="Sub-goals" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="47.0" />
          </font>
       </Label>
-      <Button fx:id="addSubGoalButton" layoutX="923.0" layoutY="465.0" mnemonicParsing="false" onMouseClicked="#addSubGoal" prefHeight="61.0" prefWidth="171.0" text="Add sub-goal" />
-      <Button layoutX="1134.0" layoutY="582.0" mnemonicParsing="false" onMouseClicked="#backOMC" prefHeight="54.0" prefWidth="100.0" text="BACK" />
+      <Button fx:id="addSubGoalBtn" layoutX="923.0" layoutY="465.0" mnemonicParsing="false" onMouseClicked="#addSubGoal" prefHeight="61.0" prefWidth="171.0" text="Add sub-goal" />
+      <Button layoutX="1134.0" layoutY="582.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="54.0" prefWidth="100.0" text="BACK" />
       <Label fx:id="allSubGoalsDoneLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="543.0" layoutY="495.0" prefHeight="54.0" prefWidth="265.0" text="All sub-goals must be done" textFill="RED" />
       <Button layoutX="31.0" layoutY="588.0" mnemonicParsing="false" onMouseClicked="#removeGoal" prefHeight="43.0" prefWidth="88.0" text="remove" />
    </children>

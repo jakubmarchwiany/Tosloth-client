@@ -1,6 +1,8 @@
 package controllers.mainview;
 
 import com.google.gson.Gson;
+import controllers.Client;
+import controllers.splashview.AnimationController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
@@ -22,11 +24,17 @@ import java.util.Collections;
 
 public class GoalManagerController {
 
-    public MainViewController mainViewController;
-    public GoalsPanelController goalsPanelController;
+    public MainViewController mainViewC;
+    public GoalsPanelController goalsPanelC;
+    public GoalManagerController goalManagerC;
 
-    public User user;
-    public Goal goal;
+    public User loginUser;
+    public Goal currentGoal;
+    public Goal mainGoal;
+    public Client client;
+
+    public boolean isGoal;
+    public Label mainLabel;
 
 
     Parent goalManager;
@@ -37,81 +45,87 @@ public class GoalManagerController {
     public TextField endTimeTF;
     public DatePicker deadLineDP;
     public ListView<Goal> subGoalsListView;
-
     public RadioButton dayRadioButton;
     public RadioButton weekRadioButton;
     public RadioButton twoWeeksRadioButton;
     public RadioButton monthRadioButton;
-
     public Label allSubGoalsDoneLabel;
-    public AnchorPane goalMakerPanel;
+
+    public Label subGoalsLabel;
+    public Button addSubGoalBtn;
 
     public void prepareGoalManagerGui(){
         allSubGoalsDoneLabel.setVisible(false);
-        nameTF.setText(goal.getName());
-        descriptionTA.setText(goal.getDescription());
-        creationTimeTF.setText(goal.getCreationTime());
+        nameTF.setText(currentGoal.getName());
+        descriptionTA.setText(currentGoal.getDescription());
+        creationTimeTF.setText(currentGoal.getCreationTime());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate goalDate = LocalDate.parse(goal.getDeadlineTime(), formatter);
+        LocalDate goalDate = LocalDate.parse(currentGoal.getDeadlineTime(), formatter);
         deadLineDP.setValue(goalDate);
-        prepareSubGoalsListView();
 
-    }
+        if(isGoal) {
+            mainLabel.setText("Goal Manager");
+            updateSubGoalsLV();
+            subGoalsListView.setCellFactory(param -> new ListCell<Goal>() {
+                @Override
+                protected void updateItem(Goal item, boolean empty) {
+                    super.updateItem(item, empty);
 
-    public void prepareSubGoalsListView(){
-        subGoalsListView.getItems().clear();
-        Collections.sort(goal.getSubGoalsArrayList(), new Goal.SortByDate());
+                    if (empty || item == null) {
+                        setText(null);
+                        setStyle(null);
+                    } else {
+                        setText(item.getName());
+                        if (item.getDone()) {
+                            setText(item.getName() + "      DONE");
+                            setStyle("-fx-background-color: #00ff00");
+                        } else {
+                            setStyle("-fx-background-color: " + goalsPanelC.colorPicker(item) + ";");
+                        }
 
-
-        for (Goal g: goal.getSubGoalsArrayList())
-            subGoalsListView.getItems().add(g);
-
-
-        subGoalsListView.setCellFactory(param -> new ListCell<Goal>() {
-            @Override
-            protected void updateItem(Goal item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null) {
-                    setText(null);
-                    setStyle(null);
-                } else {
-                    setText(item.getName());
-                    if (item.getDone()) {
-                        setText(item.getName() + "      DONE");
-                        setStyle("-fx-background-color: #00ff00");
-                    }else{
-                        setStyle("-fx-background-color: " + goalsPanelController.colorPicker(item) + ";");
                     }
-
                 }
-            }
-        });
+            });
+        }else{
+            mainLabel.setText("Sub-Goal Manager");
+            addSubGoalBtn.setDisable(true);
+            subGoalsListView.setDisable(true);
+            subGoalsListView.setVisible(false);
+            subGoalsLabel.setVisible(false);
+            addSubGoalBtn.setVisible(false);
+        }
 
     }
 
+    public void updateSubGoalsLV(){
+        subGoalsListView.getItems().clear();
+        Collections.sort(currentGoal.getSubGoalsArrayList(), new Goal.SortByDate());
 
+
+        for (Goal g: currentGoal.getSubGoalsArrayList())
+            subGoalsListView.getItems().add(g);
+    }
 
     public void addSubGoal() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            goalMakerPanel = fxmlLoader.load((getClass().getResource("subGoalMaker.fxml").openStream()));
-            mainViewController.getActivePanel().getChildren().add(goalMakerPanel);
+            AnchorPane goalMakerPanel = fxmlLoader.load((getClass().getResource("goalMaker.fxml").openStream()));
+            mainViewC.getActivePanel().getChildren().add(goalMakerPanel);
 
-            SubGoalMakerController subGoalMakerController = fxmlLoader.getController();
-
-            subGoalMakerController.setGoalManagerController(GoalManagerController.this);
-            subGoalMakerController.setMainViewController(mainViewController);
-            subGoalMakerController.setGoal(goal);
-            subGoalMakerController.setUser(user);
-
-
+            GoalMakerController goalMakerC = fxmlLoader.getController();
+            goalMakerC.setGoal(false);
+            goalMakerC.setGoalManagerC(GoalManagerController.this);
+            goalMakerC.setMainViewC(mainViewC);
+            goalMakerC.setCurrentGoal(currentGoal);
+            goalMakerC.setLoginUser(loginUser);
+            goalMakerC.setClient(client);
+            goalMakerC.prepareGoalMaker();
+            goalMakerC.checkValidation();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void updateGoal() {
         Interval interval = Interval.NONE;
@@ -125,29 +139,21 @@ public class GoalManagerController {
         else if (monthRadioButton.isSelected())
             interval = Interval.EVERYMONTH;
 
-        goal.setName(nameTF.getText());
-        goal.setDescription(descriptionTA.getText());
-        goal.setInterval(interval);
-        goal.setDeadlineTime(deadLineDP.getValue());
+        currentGoal.setName(nameTF.getText());
+        currentGoal.setDescription(descriptionTA.getText());
+        currentGoal.setInterval(interval);
+        currentGoal.setDeadlineTime(deadLineDP.getValue());
 
-
-        goalsPanelController.updateListsView();
-
-
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost postRequest = new HttpPost("http://localhost:8080/goals/update");
-        StringEntity newGoal = new StringEntity(new Gson().toJson(goal), "UTF-8");
-
-
-        postRequest.addHeader("content-type", "application/json; charset=UTF-8");
-        postRequest.setEntity(newGoal);
-
-        try {
-            HttpResponse response = httpClient.execute(postRequest);
-            System.out.println(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(isGoal){
+            goalsPanelC.updateListsView();
+            client.updateGoal(currentGoal);
+        }else{
+            goalManagerC.updateSubGoalsLV();
+            client.updateGoal(mainGoal);
         }
+
+        back();
+
     }
 
     public void listViewOMC()  {
@@ -161,19 +167,21 @@ public class GoalManagerController {
                 Goal selectedGaol = subGoalsListView.getSelectionModel().getSelectedItem();
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    Parent subGoalManager = fxmlLoader.load((getClass().getResource("subGoalManager.fxml").openStream()));
-                    mainViewController.getActivePanel().getChildren().add(subGoalManager);
+                    Parent goalManager2 = fxmlLoader.load((getClass().getResource("goalManager.fxml").openStream()));
+                    mainViewC.getActivePanel().getChildren().add(goalManager2);
 
-                    SubGoalManagerController subGoalManagerController = fxmlLoader.getController();
+                    GoalManagerController goalManagerC = fxmlLoader.getController();
 
+                    goalManagerC.setGoalManagerC(GoalManagerController.this);
+                    goalManagerC.setIsGoal(false);
+                    goalManagerC.setClient(client);
+                    goalManagerC.setMainGoal(currentGoal);
+                    goalManagerC.setMainViewC(mainViewC);
+                    goalManagerC.setCurrentGoal(selectedGaol);
+                    goalManagerC.setLoginUser(loginUser);
+                    goalManagerC.setGoalManager(goalManager);
+                    goalManagerC.prepareGoalManagerGui();
 
-                    subGoalManagerController.setMainViewController(mainViewController);
-                    subGoalManagerController.setGoalManagerController(GoalManagerController.this);
-                    subGoalManagerController.setSubGoal(selectedGaol);
-                    subGoalManagerController.setGoalManager(goalManager);
-                    subGoalManagerController.setGoal(goal);
-
-                    subGoalManagerController.prepareSubGoalManagerGui();
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -190,96 +198,92 @@ public class GoalManagerController {
         });
     }
 
-
-
-    public void backOMC() {
-        mainViewController.getActivePanel().getChildren().clear();
-        mainViewController.getActivePanel().getChildren().add(mainViewController.goalsPanel);
+    public void back() {
+        mainViewC.getActivePanel().getChildren().clear();
+        if(isGoal)
+            mainViewC.getActivePanel().getChildren().add(mainViewC.goalsPanel);
+        else
+            mainViewC.getActivePanel().getChildren().add(goalManager);
     }
 
-    public void setGoal(Goal goal) {
-        this.goal = goal;
+    public void goalDone() {
+        if(isGoal){
+
+            boolean done = true;
+            for (Goal g: currentGoal.getSubGoalsArrayList()){
+                if (!g.getDone()){
+                    done = false;
+                    break;
+                }
+            }
+
+            if (done){
+                currentGoal.setDone(true);
+                goalsPanelC.updateListsView();
+
+                client.updateGoal(currentGoal);
+                back();
+            }else{
+                AnimationController animationController = new AnimationController();
+
+                animationController.showInfoLabel(allSubGoalsDoneLabel,5000);
+            }
+
+        }else{
+            currentGoal.setDone(true);
+            goalManagerC.updateSubGoalsLV();
+            client.updateGoal(mainGoal);
+            back();
+        }
     }
 
-    public void setMainViewController(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    public void removeGoal() {
+        if(isGoal) {
+            client.removeGoal(currentGoal);
+            loginUser.getGoalsArrayList().remove(currentGoal);
+            goalsPanelC.updateListsView();
+
+        }else{
+            mainGoal.getSubGoalsArrayList().remove(currentGoal);
+            goalManagerC.updateSubGoalsLV();
+            client.updateGoal(mainGoal);
+        }
+        back();
     }
 
-    public void setGoalsPanelController(GoalsPanelController goalsPanelController) {
-        this.goalsPanelController = goalsPanelController;
+    public void setCurrentGoal(Goal currentGoal) {
+        this.currentGoal = currentGoal;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setLoginUser(User loginUser) {
+        this.loginUser = loginUser;
     }
 
     public void setGoalManager(Parent goalManager) {
         this.goalManager = goalManager;
     }
 
-    public void removeGoal() {
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet goalsGetRequest = new HttpGet("http://localhost:8080/goals/remove/"+ goal.getId());
-            goalsGetRequest.addHeader("content-type", "application/json; charset=UTF-8");
-            HttpResponse goalsResponse = httpClient.execute(goalsGetRequest);
-
-            user.getGoalsArrayList().remove(goal);
-            backOMC();
-
-            goalsPanelController.updateListsView();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public void goalDone() {
-        Boolean done = true;
-        for (Goal g: goal.getSubGoalsArrayList()){
-            if (!g.getDone()){
-                done = false;
-                break;
-            }
-        }
+    public void setMainViewC(MainViewController mainViewC) {
+        this.mainViewC = mainViewC;
+    }
 
-        if (done){
-            goal.setDone(true);
-            goalsPanelController.updateListsView();
+    public void setGoalsPanelC(GoalsPanelController goalsPanelC) {
+        this.goalsPanelC = goalsPanelC;
+    }
 
+    public void setIsGoal(boolean isGoal) {
+        this.isGoal = isGoal;
+    }
 
-            CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpPost postRequest = new HttpPost("http://localhost:8080/goals/update");
-            StringEntity newGoal = new StringEntity(new Gson().toJson(goal), "UTF-8");
+    public void setMainGoal(Goal mainGoal) {
+        this.mainGoal = mainGoal;
+    }
 
-
-            postRequest.addHeader("content-type", "application/json; charset=UTF-8");
-            postRequest.setEntity(newGoal);
-
-            try {
-                HttpResponse response = httpClient.execute(postRequest);
-                System.out.println(response.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }else{
-            Thread thread = new Thread(() -> {
-                try {
-
-                    allSubGoalsDoneLabel.setVisible(true);
-                    Thread.sleep(5000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                allSubGoalsDoneLabel.setVisible(false);
-            });
-            thread.start();
-
-        }
-
+    public void setGoalManagerC(GoalManagerController goalManagerC) {
+        this.goalManagerC = goalManagerC;
     }
 }
