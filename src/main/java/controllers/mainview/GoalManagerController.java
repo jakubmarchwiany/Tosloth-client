@@ -101,7 +101,7 @@ public class GoalManagerController {
             });
         }else{
             mainLabel.setText("SUB-GOAL MANAGER");
-            addSubGoalBtn.setDisable(true);
+//            addSubGoalBtn.setDisable(true);
             subGoalsListView.setDisable(true);
             subGoalsListView.setVisible(false);
             subGoalsLabel.setVisible(false);

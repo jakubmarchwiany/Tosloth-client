@@ -9,7 +9,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
@@ -36,38 +35,19 @@ public class ValidationChecker {
 
     public boolean charactersCheck(String text){
         Text characterText = new Text();
-        Pattern pattern = Pattern.compile("^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*$");
-        Matcher matcher = pattern.matcher(text);
-//        for (int i = 0; i < text.length(); i++) {
-////            if ((text.charAt(i) >= '0' && text.charAt(i) <= '9') || (text.charAt(i) >= 'A' && text.charAt(i) <= 'Z') || (text.charAt(i) >= 'a' && text.charAt(i) <= 'z')) {
-//            if ((text.charAt(i) >= '0' && text.charAt(i) <= '9') || ) {
-//                characterText = new Text("Character correctly\n");
-//                characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-//                characterText.setFill(Color.GREEN);
-//            } else {
-//                characterText = new Text("Incorrect character\n");
-//                characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-//                characterText.setFill(Color.RED);
-//                infoValidationTF.getChildren().add(characterText);
-//                return false;
-//            }
-//        }
-
-
-//            if ((text.charAt(i) >= '0' && text.charAt(i) <= '9') || (text.charAt(i) >= 'A' && text.charAt(i) <= 'Z') || (text.charAt(i) >= 'a' && text.charAt(i) <= 'z')) {
-        if (matcher.matches()) {
-            characterText = new Text("Character correctly\n");
-            characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            characterText.setFill(Color.GREEN);
-        } else {
-            characterText = new Text("Incorrect character\n");
-            characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            characterText.setFill(Color.RED);
-            infoValidationTF.getChildren().add(characterText);
-            return false;
+        for (int i = 0; i < text.length(); i++) {
+            if ((text.charAt(i) >= '0' && text.charAt(i) <= '9') || (text.charAt(i) >= 'A' && text.charAt(i) <= 'Z') || (text.charAt(i) >= 'a' && text.charAt(i) <= 'z')) {
+                characterText = new Text("Character correctly\n");
+                characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+                characterText.setFill(Color.GREEN);
+            } else {
+                characterText = new Text("Incorrect character\n");
+                characterText.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+                characterText.setFill(Color.RED);
+                infoValidationTF.getChildren().add(characterText);
+                return false;
+            }
         }
-
-
         infoValidationTF.getChildren().add(characterText);
         return true;
     }
