@@ -160,7 +160,7 @@ public class GoalsPanelController {
 
                 if (empty || item == null) {
                     setText(null);
-                    setStyle(null);
+                    setStyle("-fx-background-color: #06121d;");
                 } else {
                     setText(item.getName());
                     setStyle("-fx-background-color: " + colorPicker(item) + ";");

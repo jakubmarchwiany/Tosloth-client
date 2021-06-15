@@ -8,24 +8,19 @@
 
 .buttonMakeGoal {
     -fx-background-color: #009600;
-    -fx-background-radius: 25px;
     -fx-text-fill: WHITE;
-    -fx-font-size: 25px;
 }
 
 .buttonRemoveGoal {
     -fx-background-color: #ff0000;
-    -fx-background-radius: 25px;
     -fx-text-fill: WHITE;
-    -fx-font-size: 25px;
 }
 
 .buttonBackGoal {
     -fx-background-color: #0691a5;
-    -fx-background-radius: 25px;
     -fx-text-fill: WHITE;
-    -fx-font-size: 20px;
 }
+
 .buttonBackGoal2 {
     -fx-background-color: #0691a5;
     -fx-text-fill: WHITE;

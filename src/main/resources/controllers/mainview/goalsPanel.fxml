@@ -9,33 +9,36 @@
 
 <Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/mainview/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalsPanelController">
    <children>
-      <Label layoutX="142.0" layoutY="72.0" text="Goals to do today" textFill="#fffafa">
+      <Label layoutX="121.0" layoutY="27.0" text="GOALS TO DO TODAY" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsTodayLV" layoutX="46.0" layoutY="132.0" prefHeight="280.0" prefWidth="354.0" />
-      <Label layoutX="552.0" layoutY="72.0" text="Goals of the week" textFill="#fffafa">
+      <ListView fx:id="goalsTodayLV" layoutX="35.0" layoutY="75.0" prefHeight="270.0" prefWidth="354.0" style="-fx-background-color: #06121d;" />
+      <Label layoutX="534.0" layoutY="89.0" prefHeight="37.0" prefWidth="228.0" text="GOALS OF THE 2 WEEKS" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsTwoWeeksLV" layoutX="458.0" layoutY="132.0" prefHeight="280.0" prefWidth="361.0" />
-      <Label layoutX="951.0" layoutY="72.0" text="Goals of the month" textFill="#fffafa">
+      <ListView fx:id="goalsTwoWeeksLV" layoutX="467.0" layoutY="152.0" prefHeight="476.0" prefWidth="361.0" style="-fx-background-color: #06121d;" />
+      <Label layoutX="951.0" layoutY="89.0" text="GOALS OF THE MONTH" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsIncomingLV" layoutX="863.0" layoutY="132.0" prefHeight="280.0" prefWidth="354.0" />
-      <Label layoutX="123.0" layoutY="433.0" text="Last completed goals" textFill="#fffafa">
+      <ListView fx:id="goalsIncomingLV" layoutX="868.0" layoutY="152.0" prefHeight="476.0" prefWidth="354.0" style="-fx-background-color: #06121d;" />
+      <Label layoutX="100.0" layoutY="360.0" text="LAST COMPLETED GOALS" textFill="#fffafa">
          <font>
             <Font name="Agency FB" size="30.0" />
          </font>
       </Label>
-      <ListView fx:id="goalsCompletedLV" layoutX="46.0" layoutY="498.0" prefHeight="140.0" prefWidth="354.0" />
-      <Button layoutX="520.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#addGoal" prefHeight="97.0" prefWidth="228.0" styleClass="buttonBackGoal" text="Add Goal">
+      <ListView fx:id="goalsCompletedLV" layoutX="35.0" layoutY="414.0" prefHeight="140.0" prefWidth="361.0" style="-fx-background-color: #06121d;" />
+      <Button layoutX="63.0" layoutY="580.0" mnemonicParsing="false" onMouseClicked="#addGoal" prefHeight="48.0" prefWidth="128.0" styleClass="buttonBackGoal" text="ADD GOAL">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
+         </cursor>
+         <font>
+            <Font size="14.0" />
+         </font></Button>
    </children>
 </Pane>

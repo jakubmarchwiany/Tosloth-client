@@ -11,17 +11,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalMakerController">
+<AnchorPane prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/mainview/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalMakerController">
    <children>
       <TextField fx:id="nameTextField" layoutX="418.0" layoutY="113.0" onKeyReleased="#checkValidation" prefHeight="43.0" prefWidth="432.0" promptText="name" />
       <TextArea fx:id="descriptionTextArea" layoutX="418.0" layoutY="172.0" onKeyReleased="#checkValidation" prefHeight="200.0" prefWidth="432.0" promptText="description" />
       <DatePicker fx:id="dataPicker" editable="false" layoutX="419.0" layoutY="387.0" onAction="#checkValidation" onInputMethodTextChanged="#checkValidation" onKeyReleased="#checkValidation" prefHeight="35.0" prefWidth="432.0" promptText="deadlineTime" />
-      <Label fx:id="goalCreatorLabel" layoutX="493.0" layoutY="12.0" text="Goal Creator" textFill="WHITE">
+      <Label fx:id="goalCreatorLabel" alignment="CENTER" layoutX="390.0" layoutY="22.0" prefHeight="84.0" prefWidth="489.0" text="GOAL CREATOR" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="70.0" />
          </font>
       </Label>
-      <Label layoutX="544.0" layoutY="432.0" text="Periodicity" textFill="WHITE">
+      <Label layoutX="532.0" layoutY="433.0" text="PERIODICITY" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="54.0" />
          </font>
@@ -34,13 +34,19 @@
       <RadioButton fx:id="weekRadioButton" layoutX="560.0" layoutY="514.0" mnemonicParsing="false" text="every week" textFill="WHITE" toggleGroup="$periodicityGroup" />
       <RadioButton fx:id="twoWeeksRadioButton" layoutX="674.0" layoutY="514.0" mnemonicParsing="false" text="every two weeks" textFill="WHITE" toggleGroup="$periodicityGroup" />
       <RadioButton fx:id="monthRadioButton" layoutX="816.0" layoutY="514.0" mnemonicParsing="false" text="every month" textFill="WHITE" toggleGroup="$periodicityGroup" />
-      <Button fx:id="makeBtn" layoutX="436.0" layoutY="568.0" mnemonicParsing="false" onMouseClicked="#makeGoal" prefHeight="43.0" prefWidth="409.0" styleClass="buttonMakeGoal" text="Make">
+      <Button fx:id="makeBtn" layoutX="436.0" layoutY="570.0" mnemonicParsing="false" onMouseClicked="#makeGoal" prefHeight="43.0" prefWidth="409.0" styleClass="buttonMakeGoal" text="MAKE">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
-      <Button layoutX="1134.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="64.0" prefWidth="94.0" styleClass="buttonBackGoal" text="Back">
+         </cursor>
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button layoutX="1134.0" layoutY="32.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="64.0" prefWidth="94.0" styleClass="buttonBackGoal" text="BACK">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></Button>
+         </cursor>
+         <font>
+            <Font size="10.0" />
+         </font></Button>
    </children>
 </AnchorPane>

@@ -34,9 +34,9 @@ public class GoalMakerController {
 
     public void prepareGoalMaker(){
         if (isGoal)
-            goalCreatorLabel.setText("Goal Creator");
+            goalCreatorLabel.setText("GOAL CREATOR");
         else
-            goalCreatorLabel.setText("Sub-Goal Creator");
+            goalCreatorLabel.setText("SUB-GOAL CREATOR");
     }
 
     public void makeGoal() {

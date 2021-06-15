@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
@@ -37,6 +38,7 @@ public class GoalManagerController {
     public Label mainLabel;
 
 
+
     Parent goalManager;
 
     public TextField nameTF;
@@ -45,6 +47,8 @@ public class GoalManagerController {
     public TextField endTimeTF;
     public DatePicker deadLineDP;
     public ListView<Goal> subGoalsListView;
+
+    public RadioButton noneRadioButton;
     public RadioButton dayRadioButton;
     public RadioButton weekRadioButton;
     public RadioButton twoWeeksRadioButton;
@@ -59,12 +63,21 @@ public class GoalManagerController {
         nameTF.setText(currentGoal.getName());
         descriptionTA.setText(currentGoal.getDescription());
         creationTimeTF.setText(currentGoal.getCreationTime());
+        endTimeTF.setText(currentGoal.getEndTime());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate goalDate = LocalDate.parse(currentGoal.getDeadlineTime(), formatter);
         deadLineDP.setValue(goalDate);
 
+        switch (currentGoal.getInterval()) {
+            case NONE -> noneRadioButton.setSelected(true);
+            case EVERYDAY -> dayRadioButton.setSelected(true);
+            case EVERYWEEK -> weekRadioButton.setSelected(true);
+            case EVERYTWOWEEKS -> twoWeeksRadioButton.setSelected(true);
+            case EVERYMONTH -> monthRadioButton.setSelected(true);
+        }
+
         if(isGoal) {
-            mainLabel.setText("Goal Manager");
+            mainLabel.setText("GOAL MANAGER");
             updateSubGoalsLV();
             subGoalsListView.setCellFactory(param -> new ListCell<Goal>() {
                 @Override
@@ -87,7 +100,7 @@ public class GoalManagerController {
                 }
             });
         }else{
-            mainLabel.setText("Sub-Goal Manager");
+            mainLabel.setText("SUB-GOAL MANAGER");
             addSubGoalBtn.setDisable(true);
             subGoalsListView.setDisable(true);
             subGoalsListView.setVisible(false);
@@ -219,9 +232,35 @@ public class GoalManagerController {
 
             if (done){
                 currentGoal.setDone(true);
+                currentGoal.setEndTime();
                 goalsPanelC.updateListsView();
 
+                LocalDate deadlineTime = currentGoal.getDeadlineDate();
+
+                System.out.println(deadlineTime.toString());
+
+                switch (currentGoal.getInterval()) {
+                    case NONE -> deadlineTime = deadlineTime.plusDays(0);
+                    case EVERYDAY -> deadlineTime = deadlineTime.plusDays(1);
+                    case EVERYWEEK -> deadlineTime = deadlineTime.plusDays(7);
+                    case EVERYTWOWEEKS -> deadlineTime = deadlineTime.plusDays(14);
+                    case EVERYMONTH -> deadlineTime = deadlineTime.plusDays(30);
+                }
+
+                System.out.println(deadlineTime.toString());
+
+                Goal newGoal = new Goal(currentGoal.getOwner(),currentGoal.getName(),currentGoal.getDescription(),currentGoal.getInterval(),false,deadlineTime);
+
+                for (Goal g: newGoal.getSubGoalsArrayList()) {
+                    g.setDone(false);
+
+                }
+
+                client.addGoal(newGoal);
+                loginUser.getGoalsArrayList().add(newGoal);
+
                 client.updateGoal(currentGoal);
+                goalsPanelC.updateListsView();
                 back();
             }else{
                 AnimationController animationController = new AnimationController();
@@ -231,6 +270,7 @@ public class GoalManagerController {
 
         }else{
             currentGoal.setDone(true);
+            currentGoal.setEndTime();
             goalManagerC.updateSubGoalsLV();
             client.updateGoal(mainGoal);
             back();
@@ -250,6 +290,8 @@ public class GoalManagerController {
         }
         back();
     }
+
+
 
     public void setCurrentGoal(Goal currentGoal) {
         this.currentGoal = currentGoal;

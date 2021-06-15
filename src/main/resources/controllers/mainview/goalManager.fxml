@@ -13,66 +13,81 @@
 
 <Pane fx:id="goalsPanel" prefHeight="658.0" prefWidth="1268.0" style="-fx-background-color: #010a13 #010a13;" stylesheets="@/controllers/mainview/style.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.mainview.GoalManagerController">
    <children>
-      <TextField fx:id="nameTF" layoutX="172.0" layoutY="121.0" prefHeight="36.0" prefWidth="371.0" />
-      <TextArea fx:id="descriptionTA" layoutX="172.0" layoutY="175.0" prefHeight="133.0" prefWidth="371.0" />
-      <TextField fx:id="creationTimeTF" editable="false" layoutX="145.0" layoutY="437.0" prefHeight="28.0" prefWidth="192.0" />
-      <TextField fx:id="endTimeTF" editable="false" layoutX="425.0" layoutY="437.0" prefHeight="28.0" prefWidth="192.0" />
-      <DatePicker fx:id="deadLineDP" layoutX="185.0" layoutY="495.0" prefHeight="32.0" prefWidth="318.0" />
-      <Label layoutX="63.0" layoutY="121.0" text="Name" textFill="WHITE">
+      <TextField fx:id="nameTF" layoutX="145.0" layoutY="75.0" prefHeight="36.0" prefWidth="371.0" />
+      <TextArea fx:id="descriptionTA" layoutX="145.0" layoutY="139.0" prefHeight="133.0" prefWidth="371.0" />
+      <TextField fx:id="creationTimeTF" editable="false" layoutX="766.0" layoutY="329.0" prefHeight="28.0" prefWidth="192.0" />
+      <TextField fx:id="endTimeTF" editable="false" layoutX="1046.0" layoutY="329.0" prefHeight="28.0" prefWidth="192.0" />
+      <DatePicker fx:id="deadLineDP" layoutX="797.0" layoutY="440.0" prefHeight="32.0" prefWidth="318.0" />
+      <Label layoutX="62.0" layoutY="75.0" text="Name" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="50.0" layoutY="175.0" text="Description" textFill="WHITE">
+      <Label layoutX="23.0" layoutY="139.0" text="Description" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="25.0" layoutY="437.0" text="Creation Time" textFill="WHITE">
+      <Label layoutX="646.0" layoutY="329.0" text="Creation time" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="23.0" />
          </font>
       </Label>
-      <Label fx:id="mainLabel" layoutX="190.0" layoutY="14.0" text="Goal Manager" textFill="WHITE">
+      <Label fx:id="mainLabel" layoutX="775.0" layoutY="47.0" text="GOAL MANAGER" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="76.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="317.0" text="Periodicity" textFill="WHITE">
+      <Label layoutX="887.0" layoutY="175.0" text="PERIODICITY" textFill="WHITE">
          <font>
-            <Font name="Agency FB" size="44.0" />
+            <Font name="Agency FB" size="39.0" />
          </font>
       </Label>
-      <RadioButton fx:id="noneRadioButton" layoutX="75.0" layoutY="383.0" mnemonicParsing="false" selected="true" text="none" textFill="WHITE">
+      <RadioButton fx:id="noneRadioButton" layoutX="687.0" layoutY="255.0" mnemonicParsing="false" selected="true" text="none" textFill="WHITE">
          <toggleGroup>
             <ToggleGroup fx:id="periodicityGroup" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="dayRadioButton" layoutX="155.0" layoutY="383.0" mnemonicParsing="false" text="every day" textFill="WHITE" toggleGroup="$periodicityGroup" />
-      <RadioButton fx:id="weekRadioButton" layoutX="270.0" layoutY="383.0" mnemonicParsing="false" text="every week" textFill="WHITE" toggleGroup="$periodicityGroup" />
-      <RadioButton fx:id="twoWeeksRadioButton" layoutX="384.0" layoutY="383.0" mnemonicParsing="false" text="every two weeks" textFill="WHITE" toggleGroup="$periodicityGroup" />
-      <RadioButton fx:id="monthRadioButton" layoutX="526.0" layoutY="383.0" mnemonicParsing="false" text="every month" textFill="WHITE" toggleGroup="$periodicityGroup" />
-      <Label layoutX="352.0" layoutY="437.0" text="End Time" textFill="WHITE">
+      <RadioButton fx:id="dayRadioButton" layoutX="767.0" layoutY="255.0" mnemonicParsing="false" selected="true" text="every day" textFill="WHITE" toggleGroup="$periodicityGroup" />
+      <RadioButton fx:id="weekRadioButton" layoutX="882.0" layoutY="255.0" mnemonicParsing="false" selected="true" text="every week" textFill="WHITE" toggleGroup="$periodicityGroup" />
+      <RadioButton fx:id="twoWeeksRadioButton" layoutX="996.0" layoutY="255.0" mnemonicParsing="false" selected="true" text="every two weeks" textFill="WHITE" toggleGroup="$periodicityGroup" />
+      <RadioButton fx:id="monthRadioButton" layoutX="1138.0" layoutY="255.0" mnemonicParsing="false" selected="true" text="every month" textFill="WHITE" toggleGroup="$periodicityGroup" />
+      <Label layoutX="973.0" layoutY="329.0" text="End time" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="23.0" />
          </font>
       </Label>
-      <Label layoutX="88.0" layoutY="495.0" text="DeadLine" textFill="WHITE">
+      <Label layoutX="903.0" layoutY="387.0" text="DEADLINE" textFill="WHITE">
          <font>
-            <Font name="Agency FB" size="26.0" />
+            <Font name="Agency FB" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="updateButton" layoutX="241.0" layoutY="564.0" mnemonicParsing="false" onMouseClicked="#updateGoal" prefHeight="54.0" prefWidth="207.0" styleClass="buttonBackGoal" stylesheets="@style.css" text="Update" />
-      <Button fx:id="doneButton" layoutX="609.0" layoutY="560.0" mnemonicParsing="false" onMouseClicked="#goalDone" prefHeight="44.0" prefWidth="134.0" styleClass="buttonMakeGoal" text="Done" />
-      <ListView fx:id="subGoalsListView" layoutX="782.0" layoutY="139.0" onMouseClicked="#listViewOMC" prefHeight="311.0" prefWidth="452.0" />
-      <Label fx:id="subGoalsLabel" layoutX="934.0" layoutY="51.0" text="Sub-goals" textFill="WHITE">
+      <Button fx:id="updateButton" layoutX="870.0" layoutY="515.0" mnemonicParsing="false" onMouseClicked="#updateGoal" prefHeight="54.0" prefWidth="207.0" text="UPDATE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button fx:id="doneButton" layoutX="1096.0" layoutY="587.0" mnemonicParsing="false" onMouseClicked="#goalDone" prefHeight="44.0" prefWidth="134.0" styleClass="buttonMakeGoal" text="DONE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <ListView fx:id="subGoalsListView" layoutX="154.0" layoutY="359.0" onMouseClicked="#listViewOMC" prefHeight="133.0" prefWidth="371.0" />
+      <Label fx:id="subGoalsLabel" layoutX="247.0" layoutY="289.0" text="SUB-GOALS" textFill="WHITE">
          <font>
             <Font name="Agency FB" size="47.0" />
          </font>
       </Label>
-      <Button fx:id="addSubGoalButton" layoutX="912.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#addSubGoal" prefHeight="44.0" prefWidth="192.0" styleClass="buttonMakeGoal" text="Add sub-goal" />
-      <Button layoutX="1129.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="56.0" prefWidth="105.0" styleClass="buttonBackGoal" text="BACK" />
-      <Label fx:id="allSubGoalsDoneLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="543.0" layoutY="495.0" prefHeight="54.0" prefWidth="265.0" text="All sub-goals must be done" textFill="RED" />
-      <Button layoutX="39.0" layoutY="564.0" mnemonicParsing="false" onMouseClicked="#removeGoal" prefHeight="36.0" prefWidth="119.0" styleClass="buttonRemoveGoal" text="remove" />
+      <Button fx:id="addSubGoalButton" layoutX="244.0" layoutY="520.0" mnemonicParsing="false" onMouseClicked="#addSubGoal" prefHeight="44.0" prefWidth="192.0" styleClass="buttonMakeGoal" text="ADD SUB-GOAL">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Button layoutX="53.0" layoutY="587.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="44.0" prefWidth="100.0" styleClass="buttonBackGoal" text="BACK">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
+      <Label fx:id="allSubGoalsDoneLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1073.0" layoutY="555.0" prefHeight="28.0" prefWidth="180.0" text="All sub-goals must be done" textFill="RED" />
+      <Button layoutX="711.0" layoutY="587.0" mnemonicParsing="false" onMouseClicked="#removeGoal" prefHeight="44.0" prefWidth="134.0" styleClass="buttonRemoveGoal" text="REMOVE">
+         <font>
+            <Font size="10.0" />
+         </font></Button>
    </children>
 </Pane>

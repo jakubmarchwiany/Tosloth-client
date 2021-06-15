@@ -89,6 +89,15 @@ public class Goal {
         return creationTime;
     }
 
+    public LocalDate getDeadlineDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String goalCreationTimeString = deadlineTime;
+
+
+        return LocalDate.parse(goalCreationTimeString, formatter);
+    }
+
     public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
@@ -99,6 +108,12 @@ public class Goal {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public void setEndTime() {
+        LocalDateTime tempTime = LocalDateTime.now();
+        DateTimeFormatter formatterDeadlineTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        this.endTime = tempTime.format(formatterDeadlineTime);
     }
 
     public String getDeadlineTime() {
